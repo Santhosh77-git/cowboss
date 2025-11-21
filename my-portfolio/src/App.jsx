@@ -99,6 +99,18 @@ export default function App() {
     img.classList.add("pulse-on");
     const t = setTimeout(() => img.classList.remove("pulse-on"), 700);
     return () => clearTimeout(t);
+    const iframe = document.getElementById("heygen-video");
+  const btn = document.getElementById("mute-toggle");
+  let muted = true;
+
+  btn.addEventListener("click", () => {
+    mutated = !muted;
+    iframe.contentWindow.postMessage(
+      JSON.stringify({ event: "command", func: muted ? "unmute" : "mute" }),
+      "*"
+    );
+    btn.textContent = muted ? "🔊" : "🔇";
+  });
   }, [activeTab]);
 
   // helper to render left text lines
