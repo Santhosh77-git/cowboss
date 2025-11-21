@@ -175,5 +175,19 @@ export default function App() {
         </section>
       </main>
     </div>
+    <div className="ai-video-wrapper">
+  <iframe
+    id="heygenFrame"
+    src="https://app.heygen.com/embedded-player/e18e3f6103434d2191dfac875864e50a&mute=true"
+    allow="autoplay; encrypted-media; fullscreen;"
+    frameBorder="0"
+    allowFullScreen
+    title="ai-avatar"
+  ></iframe>
+
+  {/* Mute / Unmute button */}
+  <button className="mute-btn" id="muteToggleBtn">🔇</button>
+</div>
+
   );
 }
