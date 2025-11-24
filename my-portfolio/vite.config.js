@@ -10,7 +10,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/my-portfolio/', // <-- ADD THIS: your GitHub repo name
+  base: '/cowboss/', // <-- ADD THIS: your GitHub repo name
   build: {
     outDir: 'dist',
   },
