@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+<<<<<<< HEAD
 import "./index.css";
 
 const initialLeft = {
@@ -8,6 +9,37 @@ const initialLeft = {
 };
 
 const contentByTab = {
+=======
+import "./App.css";
+
+/* ---------- HERO ---------- */
+const initialLeft = {
+  id: "hero",
+  titleLines: [
+    "Glad, I' m Santhosh || Domain Explorer",
+    "Got two minutes to stalk my portfolio? Go on… click here",
+  ],
+  showButton: true,
+};
+
+/* ---------- CONTENT BY TABS ---------- */
+const contentByTab = {
+  story: {
+    id: "story",
+    titleLines: [
+      "Before entering into the Town, I'm my Boss's Buddy and I'm here to represent my Boss's profession.",
+      "If you've any query, say it to me and I will reach out that to my Boss.",
+      "",
+      "We've some constraints to visit our Town. They are:",
+      "• Don't reveal the secret of our Town.",
+      "• We will provide a Horse for your ride.",
+      "• After my bullet sound, you can move to the next Area.",
+      "• Finally, if you trust our Boss, you can call our Boss with his contact and I will provide it."
+    ],
+    showButton: false,
+  },
+  hero: initialLeft,
+>>>>>>> db7ef00 (first commit)
   about: {
     id: "about",
     titleLines: [
@@ -55,6 +87,7 @@ const contentByTab = {
   },
 };
 
+<<<<<<< HEAD
 export default function App() {
   const [leftContent, setLeftContent] = useState(initialLeft);
   const [animState, setAnimState] = useState("idle"); // idle | out | in
@@ -69,10 +102,48 @@ export default function App() {
     // start slide-out
     setAnimState("out");
     // after out animation, swap and animate in
+=======
+/* ---------- ORDER WITH NEW STORY SCREEN ---------- */
+const tabOrder = ["story", "hero", "about", "skills", "testimonials", "certificates", "contact"];
+
+export default function App() {
+  const [leftContent, setLeftContent] = useState(contentByTab.story);
+  const [animState, setAnimState] = useState("idle");
+  const [activeTab, setActiveTab] = useState("story");
+  const [navVisible, setNavVisible] = useState(false);
+  const [photoInNav, setPhotoInNav] = useState(false);
+  const photoRef = useRef(null);
+
+  const [isWelcome, setIsWelcome] = useState(true);
+  const [welcomeAnim, setWelcomeAnim] = useState("");
+
+  const [gunState, setGunState] = useState({ show: false, side: "left", firing: false });
+  const gunTimeoutRef = useRef(null);
+
+  const clickAudio = useRef(new Audio("/sounds/click.mp3")).current;
+  const gunAudio = useRef(new Audio("/sounds/gunshot.mp3")).current;
+
+  /* ---------- ENTER TOWN → STORY ---------- */
+  const enterTown = () => {
+    setWelcomeAnim("fadeOut");
+    setTimeout(() => {
+      setIsWelcome(false);
+      setLeftContent(contentByTab.story);
+      setActiveTab("story");
+    }, 1000);
+  };
+
+  /* ---------- CONTENT TRANSITION ---------- */
+  const replaceLeftContent = (tabKey) => {
+    const newContent = contentByTab[tabKey];
+    if (!newContent) return;
+    setAnimState("out");
+>>>>>>> db7ef00 (first commit)
     setTimeout(() => {
       setLeftContent(newContent);
       setAnimState("in");
       setActiveTab(tabKey);
+<<<<<<< HEAD
       // finish animation
       setTimeout(() => setAnimState("idle"), 450);
     }, 350); // match css durations
@@ -121,11 +192,90 @@ export default function App() {
           {ln}
         </p>
       ))}
+=======
+      setTimeout(() => setAnimState("idle"), 450);
+    }, 350);
+  };
+
+  /* ---------- GUN-STYLE NAVIGATION ---------- */
+  const triggerNavigationWithGun = (tabKey) => {
+    const prevIndex = tabOrder.indexOf(activeTab);
+    const newIndex = tabOrder.indexOf(tabKey);
+    let side = newIndex > prevIndex ? "left" : "right";
+
+    setGunState({ show: true, side, firing: true });
+    try { gunAudio.currentTime = 0; gunAudio.play(); } catch {}
+
+    clearTimeout(gunTimeoutRef.current);
+    gunTimeoutRef.current = setTimeout(() => {
+      replaceLeftContent(tabKey);
+      setGunState((s) => ({ ...s, firing: false }));
+      gunTimeoutRef.current = setTimeout(() => {
+        setGunState({ show: false, side: "left", firing: false });
+      }, 400);
+    }, 600);
+  };
+
+  /* ---------- HERO BUTTON ---------- */
+  const onHeckYes = () => {
+    try { clickAudio.currentTime = 0; clickAudio.play(); } catch {}
+    setNavVisible(true);
+    setPhotoInNav(true);
+    triggerNavigationWithGun("about");
+  };
+
+  /* ---------- NAVBAR CLICK ---------- */
+  const onNavClick = (key) => {
+    if (key === activeTab) return;
+    try { clickAudio.currentTime = 0; clickAudio.play(); } catch {}
+    triggerNavigationWithGun(key);
+  };
+
+  /* ---------- NEXT / PREV ---------- */
+  const goNext = () => {
+    let i = tabOrder.indexOf(activeTab) + 1;
+    if (i >= tabOrder.length) i = 2;
+    if (tabOrder[i] === "story") i = 1;
+    triggerNavigationWithGun(tabOrder[i]);
+  };
+
+  const goPrev = () => {
+    let i = tabOrder.indexOf(activeTab) - 1;
+    if (i < 2) i = tabOrder.length - 1;
+    triggerNavigationWithGun(tabOrder[i]);
+  };
+
+  useEffect(() => () => clearTimeout(gunTimeoutRef.current), []);
+
+  /* ---------- LEFT TEXT ---------- */
+  const LeftText = ({ lines }) => {
+    const [animate, setAnimate] = useState(false);
+    useEffect(() => {
+      if (animState === "in") {
+        setAnimate(true);
+        const t = setTimeout(() => setAnimate(false), 900);
+        return () => clearTimeout(t);
+      }
+    }, [animState]);
+    return (
+      <div className={`left-lines ${animate ? "float-in" : ""}`}>
+        {lines.map((ln, idx) => <p key={idx} className="left-line">{ln}</p>)}
+      </div>
+    );
+  };
+
+  /* ---------- GUN COMPONENT ---------- */
+  const GunBlast = ({ side, firing }) => (
+    <div className={`gun-blast ${side} ${firing ? "firing" : "smoke"}`}>
+      <img src="/images/revolver.png" alt="gun" className={`gun-image ${side === "right" ? "flip" : ""}`} />
+      <div className="muzzle" /><div className="bullet" /><div className="smoke" />
+>>>>>>> db7ef00 (first commit)
     </div>
   );
 
   return (
     <div className="app-root">
+<<<<<<< HEAD
       {/* NAVBAR: full-width at top, appears when navVisible */}
       <header className={`top-nav ${navVisible ? "nav-show" : ""}`} role="navigation" aria-label="Main">
         <div className="nav-inner">
@@ -182,10 +332,56 @@ export default function App() {
               <button className="heck-btn" onClick={onHeckYes}>
                 Heck Yes!
               </button>
+=======
+
+      {isWelcome && (
+        <div className={`welcome-screen ${welcomeAnim}`}>
+          <h1 className="welcome-title">Welcome To The Town of PORTFOLIO</h1>
+          <button className="enter-town-btn" onClick={enterTown}>▶</button>
+        </div>
+      )}
+
+      {/* NAVBAR ONLY AFTER HERO */}
+      {navVisible && !["story", "hero"].includes(activeTab) && (
+        <header className="top-nav nav-show">
+          <div className="nav-inner">
+            <div className="nav-left">
+              Santhosh <span className="nav-sep">|</span> 9087847806
+            </div>
+            {tabOrder.filter(t => !["story", "hero"].includes(t)).map((tab) => (
+              <button
+                key={tab}
+                className={`nav-btn ${activeTab === tab ? "active" : ""}`}
+                onClick={() => onNavClick(tab)}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+            {photoInNav && <img ref={photoRef} src="/me.png" className="nav-photo" alt="Santhosh" />}
+          </div>
+        </header>
+      )}
+
+      {gunState.show && <GunBlast side={gunState.side} firing={gunState.firing} />}
+
+      <main className="viewport">
+        {!photoInNav && (
+          <aside className="fixed-photo">
+            <img ref={photoRef} src="/me.png" alt="Santhosh" />
+          </aside>
+        )}
+
+        <section className="left-area">
+          <div className={`left-wrapper ${animState === "out" ? "slide-out" : ""} ${animState === "in" ? "slide-in" : ""}`}>
+            <LeftText lines={leftContent.titleLines} />
+            {leftContent.showButton && (
+              <button className="heck-btn" onClick={onHeckYes}>Heck Yes!</button>
+>>>>>>> db7ef00 (first commit)
             )}
           </div>
         </section>
       </main>
+<<<<<<< HEAD
     </div>
     <div className="ai-video-wrapper">
   <iframe
@@ -201,5 +397,22 @@ export default function App() {
   <button className="mute-btn" id="muteToggleBtn">🔇</button>
 </div>
 
+=======
+
+      {/* --------- PAGER LOGIC --------- */}
+      {!isWelcome && activeTab === "story" && (
+        <div className="pager-controls">
+          <button className="pager-right" onClick={goNext}>▶</button>
+        </div>
+      )}
+
+      {!isWelcome && !["story", "hero"].includes(activeTab) && (
+        <div className="pager-controls">
+          <button className="pager-left" onClick={goPrev}>◀</button>
+          <button className="pager-right" onClick={goNext}>▶</button>
+        </div>
+      )}
+    </div>
+>>>>>>> db7ef00 (first commit)
   );
 }
