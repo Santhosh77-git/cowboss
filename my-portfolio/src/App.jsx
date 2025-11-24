@@ -1,4 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
+
+import "./index.css";
+
+const initialLeft = {
+  id: "hero",
+  titleLines: ["Glad, I' m Santhosh", "Got two minutes to stalk my portfolio? Go on… click here"],
+  showButton: true,
+};
+
+const contentByTab = {
 import "./App.css";
 
 /* ---------- HERO ---------- */
@@ -28,6 +38,7 @@ const contentByTab = {
     showButton: false,
   },
   hero: initialLeft,
+
   about: {
     id: "about",
     titleLines: [
@@ -75,75 +86,122 @@ const contentByTab = {
   },
 };
 
-/* ---------- ORDER WITH STORY + HERO ---------- */
+export default function App() {
+  const [leftContent, setLeftContent] = useState(initialLeft);
+  const [animState, setAnimState] = useState("idle"); // idle | out | in
+  const [activeTab, setActiveTab] = useState(null); // null or "about"/"skills"...
+  const [navVisible, setNavVisible] = useState(false);
+  const photoRef = useRef(null);
+
+  // Trigger transition from current left content to new content (tabKey).
+  const replaceLeftContent = (tabKey) => {
+    const newContent = contentByTab[tabKey];
+    if (!newContent) return;
+    // start slide-out
+    setAnimState("out");
+    // after out animation, swap and animate in
+/* ---------- ORDER WITH NEW STORY SCREEN ---------- */
 const tabOrder = ["story", "hero", "about", "skills", "testimonials", "certificates", "contact"];
 
 export default function App() {
-  // left content shown on the left panel
   const [leftContent, setLeftContent] = useState(contentByTab.story);
-  const [animState, setAnimState] = useState("idle"); // idle | out | in
-  const [activeTab, setActiveTab] = useState("story"); // start at story after welcome
-  const [navVisible, setNavVisible] = useState(false); // navbar appears after hero normally
+  const [animState, setAnimState] = useState("idle");
+  const [activeTab, setActiveTab] = useState("story");
+  const [navVisible, setNavVisible] = useState(false);
   const [photoInNav, setPhotoInNav] = useState(false);
   const photoRef = useRef(null);
 
-  // welcome state: first screen (full page). clicking enterTown -> story
   const [isWelcome, setIsWelcome] = useState(true);
   const [welcomeAnim, setWelcomeAnim] = useState("");
 
-  // gun overlay (revolver) state
   const [gunState, setGunState] = useState({ show: false, side: "left", firing: false });
   const gunTimeoutRef = useRef(null);
 
-  // audio refs — initialize in effect so SSR/local dev won't break
-  const clickAudioRef = useRef(null);
-  const gunAudioRef = useRef(null);
-  useEffect(() => {
-    clickAudioRef.current = typeof Audio !== "undefined" ? new Audio("/sounds/click.mp3") : null;
-    gunAudioRef.current = typeof Audio !== "undefined" ? new Audio("/sounds/gunshot.mp3") : null;
-  }, []);
+  const clickAudio = useRef(new Audio("/sounds/click.mp3")).current;
+  const gunAudio = useRef(new Audio("/sounds/gunshot.mp3")).current;
 
-  /* ---------- ENTER TOWN → STORY (from welcome screen) ---------- */
+  /* ---------- ENTER TOWN → STORY ---------- */
   const enterTown = () => {
     setWelcomeAnim("fadeOut");
     setTimeout(() => {
       setIsWelcome(false);
       setLeftContent(contentByTab.story);
       setActiveTab("story");
-      // keep navbar hidden while on story and hero (as requested)
-      setNavVisible(false);
     }, 1000);
   };
 
-  /* ---------- CONTENT TRANSITION (clean swap + animations) ---------- */
+  /* ---------- CONTENT TRANSITION ---------- */
   const replaceLeftContent = (tabKey) => {
     const newContent = contentByTab[tabKey];
     if (!newContent) return;
     setAnimState("out");
+
     setTimeout(() => {
       setLeftContent(newContent);
       setAnimState("in");
       setActiveTab(tabKey);
-      // show nav only after we leave hero/story (if we are in a section)
-      if (!["story", "hero"].includes(tabKey)) {
-        setNavVisible(true);
-        setPhotoInNav(true);
-      } else {
-        // hide nav on story/hero
-        setNavVisible(false);
-      }
+
+      // finish animation
       setTimeout(() => setAnimState("idle"), 450);
-    }, 350); // match CSS timing
+    }, 350); // match css durations
   };
 
-  /* ---------- GUN-STYLE NAVIGATION (visual + sound) ---------- */
+  const onHeckYes = () => {
+    // When user clicks Heck Yes: show navbar, replace left content with About
+    setNavVisible(true);
+    replaceLeftContent("about");
+  };
+
+  // Nav click handler
+  const onNavClick = (key) => {
+    if (key === activeTab) return;
+    replaceLeftContent(key);
+  };
+
+  // Pulse photo briefly when activeTab changes (i.e. user navigates to another section)
+  useEffect(() => {
+    const img = photoRef.current;
+    if (!img) return;
+    // don't pulse for null -> null transitions
+    if (!activeTab) return;
+    img.classList.add("pulse-on");
+    const t = setTimeout(() => img.classList.remove("pulse-on"), 700);
+    return () => clearTimeout(t);
+    const iframe = document.getElementById("heygen-video");
+  const btn = document.getElementById("mute-toggle");
+  let muted = true;
+
+  btn.addEventListener("click", () => {
+    mutated = !muted;
+    iframe.contentWindow.postMessage(
+      JSON.stringify({ event: "command", func: muted ? "unmute" : "mute" }),
+      "*"
+    );
+    btn.textContent = muted ? "🔊" : "🔇";
+  });
+  }, [activeTab]);
+
+  // helper to render left text lines
+  const LeftText = ({ lines }) => (
+    <div className="left-lines" aria-live="polite">
+      {lines.map((ln, idx) => (
+        <p key={idx} className="left-line">
+          {ln}
+        </p>
+      ))}
+
+      setTimeout(() => setAnimState("idle"), 450);
+    }, 350);
+  };
+
+  /* ---------- GUN-STYLE NAVIGATION ---------- */
   const triggerNavigationWithGun = (tabKey) => {
     const prevIndex = tabOrder.indexOf(activeTab);
     const newIndex = tabOrder.indexOf(tabKey);
     let side = newIndex > prevIndex ? "left" : "right";
 
     setGunState({ show: true, side, firing: true });
-    try { gunAudioRef.current && (gunAudioRef.current.currentTime = 0, gunAudioRef.current.play()); } catch (e) {}
+    try { gunAudio.currentTime = 0; gunAudio.play(); } catch {}
 
     clearTimeout(gunTimeoutRef.current);
     gunTimeoutRef.current = setTimeout(() => {
@@ -155,10 +213,9 @@ export default function App() {
     }, 600);
   };
 
-  /* ---------- HERO BUTTON: heck yes (go to about and show navbar) ---------- */
+  /* ---------- HERO BUTTON ---------- */
   const onHeckYes = () => {
-    try { clickAudioRef.current && (clickAudioRef.current.currentTime = 0, clickAudioRef.current.play()); } catch (e) {}
-    // after hero, show navbar and move to about
+    try { clickAudio.currentTime = 0; clickAudio.play(); } catch {}
     setNavVisible(true);
     setPhotoInNav(true);
     triggerNavigationWithGun("about");
@@ -167,52 +224,27 @@ export default function App() {
   /* ---------- NAVBAR CLICK ---------- */
   const onNavClick = (key) => {
     if (key === activeTab) return;
-    try { clickAudioRef.current && (clickAudioRef.current.currentTime = 0, clickAudioRef.current.play()); } catch (e) {}
+    try { clickAudio.currentTime = 0; clickAudio.play(); } catch {}
     triggerNavigationWithGun(key);
   };
 
-  /* ---------- NEXT / PREV (pager) ---------- */
+  /* ---------- NEXT / PREV ---------- */
   const goNext = () => {
-    // story -> hero, hero -> about, otherwise next (skip story during normal cycle)
-    if (activeTab === "story") {
-      replaceLeftContent("hero");
-      return;
-    }
-    if (activeTab === "hero") {
-      replaceLeftContent("about");
-      return;
-    }
-
-    let idx = tabOrder.indexOf(activeTab);
-    let nextIdx = (idx + 1) % tabOrder.length;
-    // never land on story during normal forward cycle (put story only before hero)
-    if (tabOrder[nextIdx] === "story") nextIdx = (nextIdx + 1) % tabOrder.length;
-    triggerNavigationWithGun(tabOrder[nextIdx]);
+    let i = tabOrder.indexOf(activeTab) + 1;
+    if (i >= tabOrder.length) i = 2;
+    if (tabOrder[i] === "story") i = 1;
+    triggerNavigationWithGun(tabOrder[i]);
   };
 
   const goPrev = () => {
-    // about -> hero, hero -> story
-    if (activeTab === "about") {
-      replaceLeftContent("hero");
-      return;
-    }
-    if (activeTab === "hero") {
-      replaceLeftContent("story");
-      return;
-    }
-
-    let idx = tabOrder.indexOf(activeTab);
-    let prevIdx = (idx - 1 + tabOrder.length) % tabOrder.length;
-    if (tabOrder[prevIdx] === "story") {
-      // skip story when moving backwards within the main sections
-      prevIdx = (prevIdx - 1 + tabOrder.length) % tabOrder.length;
-    }
-    triggerNavigationWithGun(tabOrder[prevIdx]);
+    let i = tabOrder.indexOf(activeTab) - 1;
+    if (i < 2) i = tabOrder.length - 1;
+    triggerNavigationWithGun(tabOrder[i]);
   };
 
   useEffect(() => () => clearTimeout(gunTimeoutRef.current), []);
 
-  /* ---------- LEFT TEXT COMPONENT (with small in animation hook) ---------- */
+  /* ---------- LEFT TEXT ---------- */
   const LeftText = ({ lines }) => {
     const [animate, setAnimate] = useState(false);
     useEffect(() => {
@@ -222,83 +254,147 @@ export default function App() {
         return () => clearTimeout(t);
       }
     }, [animState]);
-
     return (
       <div className={`left-lines ${animate ? "float-in" : ""}`}>
-        {lines.map((ln, idx) => (
-          <p key={idx} className="left-line">
-            {ln}
-          </p>
-        ))}
+        {lines.map((ln, idx) => <p key={idx} className="left-line">{ln}</p>)}
       </div>
     );
   };
 
-  /* ---------- GUN BLAST VISUAL ---------- */
+  /* ---------- GUN COMPONENT ---------- */
   const GunBlast = ({ side, firing }) => (
-    <div className={`gun-blast ${side} ${firing ? "firing" : "smoke"}`} aria-hidden="true">
+    <div className={`gun-blast ${side} ${firing ? "firing" : "smoke"}`}>
       <img src="/images/revolver.png" alt="gun" className={`gun-image ${side === "right" ? "flip" : ""}`} />
-      <div className="muzzle" />
-      <div className="bullet" />
-      <div className="smoke" />
+      <div className="muzzle" /><div className="bullet" /><div className="smoke" />
+
     </div>
   );
 
-  /* ---------- RENDER ---------- */
   return (
     <div className="app-root">
-      {/* Welcome Screen */}
+
+      {/* NAVBAR: full-width at top, appears when navVisible */}
+      <header className={`top-nav ${navVisible ? "nav-show" : ""}`} role="navigation" aria-label="Main">
+        <div className="nav-inner">
+          <div className="nav-left" aria-hidden="true">Santhosh <span className="nav-sep">|</span> 9087847806</div>
+          <button
+            className={`nav-btn ${activeTab === "about" ? "active" : ""}`}
+            onClick={() => onNavClick("about")}
+          >
+            About
+          </button>
+          <button
+            className={`nav-btn ${activeTab === "skills" ? "active" : ""}`}
+            onClick={() => onNavClick("skills")}
+          >
+            Skills
+          </button>
+          <button
+            className={`nav-btn ${activeTab === "testimonials" ? "active" : ""}`}
+            onClick={() => onNavClick("testimonials")}
+          >
+            Testimonials
+          </button>
+          <button
+            className={`nav-btn ${activeTab === "certificates" ? "active" : ""}`}
+            onClick={() => onNavClick("certificates")}
+          >
+            Certificates
+          </button>
+          <button
+            className={`nav-btn ${activeTab === "contact" ? "active" : ""}`}
+            onClick={() => onNavClick("contact")}
+          >
+            Contact Me
+          </button>
+        </div>
+      </header>
+
+      {/* MAIN VIEWPORT */}
+      <main className="viewport">
+        {/* Right-fixed photo (never moves) */}
+        <aside className="fixed-photo" aria-hidden="true">
+          <img ref={photoRef} src="/me.jpg" alt="Santhosh" />
+        </aside>
+
+        {/* Left content box — exact same position, swapped via animations */}
+        <section className="left-area" aria-live="polite">
+          {/* incoming/outgoing wrapper */}
+          <div className={`left-wrapper ${animState === "out" ? "slide-out" : ""} ${animState === "in" ? "slide-in" : ""}`}>
+            {/* Title lines */}
+            <LeftText lines={leftContent.titleLines} />
+
+            {/* Optional button for hero */}
+            {leftContent.showButton && (
+              <button className="heck-btn" onClick={onHeckYes}>
+                Heck Yes!
+              </button>
+
       {isWelcome && (
         <div className={`welcome-screen ${welcomeAnim}`}>
           <h1 className="welcome-title">Welcome To The Town of PORTFOLIO</h1>
-          <p className="welcome-hint">Tap ▶ or swipe right to enter the town</p>
           <button className="enter-town-btn" onClick={enterTown}>▶</button>
         </div>
       )}
 
-      {/* Navbar: visible only after we leave hero/story */}
+      {/* NAVBAR ONLY AFTER HERO */}
       {navVisible && !["story", "hero"].includes(activeTab) && (
-        <header className="top-nav nav-show" role="navigation" aria-label="Main">
+        <header className="top-nav nav-show">
           <div className="nav-inner">
-            <div className="nav-left" aria-hidden="true">Santhosh <span className="nav-sep">|</span> 9087847806</div>
-
-            <button className={`nav-btn ${activeTab === "about" ? "active" : ""}`} onClick={() => onNavClick("about")}>About</button>
-            <button className={`nav-btn ${activeTab === "skills" ? "active" : ""}`} onClick={() => onNavClick("skills")}>Skills</button>
-            <button className={`nav-btn ${activeTab === "testimonials" ? "active" : ""}`} onClick={() => onNavClick("testimonials")}>Testimonials</button>
-            <button className={`nav-btn ${activeTab === "certificates" ? "active" : ""}`} onClick={() => onNavClick("certificates")}>Certificates</button>
-            <button className={`nav-btn ${activeTab === "contact" ? "active" : ""}`} onClick={() => onNavClick("contact")}>Contact Me</button>
-
+            <div className="nav-left">
+              Santhosh <span className="nav-sep">|</span> 9087847806
+            </div>
+            {tabOrder.filter(t => !["story", "hero"].includes(t)).map((tab) => (
+              <button
+                key={tab}
+                className={`nav-btn ${activeTab === tab ? "active" : ""}`}
+                onClick={() => onNavClick(tab)}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
             {photoInNav && <img ref={photoRef} src="/me.png" className="nav-photo" alt="Santhosh" />}
           </div>
         </header>
       )}
 
-      {/* Gun blast overlay */}
       {gunState.show && <GunBlast side={gunState.side} firing={gunState.firing} />}
 
-      {/* Main viewport */}
       <main className="viewport">
-        {/* fixed photo right side (hidden from assistive tech) */}
-        <aside className="fixed-photo" aria-hidden="true">
-          <img ref={photoRef} src="/me.png" alt="Santhosh" />
-        </aside>
+        {!photoInNav && (
+          <aside className="fixed-photo">
+            <img ref={photoRef} src="/me.png" alt="Santhosh" />
+          </aside>
+        )}
 
-        <section className="left-area" aria-live="polite">
+        <section className="left-area">
           <div className={`left-wrapper ${animState === "out" ? "slide-out" : ""} ${animState === "in" ? "slide-in" : ""}`}>
             <LeftText lines={leftContent.titleLines} />
-
-            {/* if current left content wants a button (hero) */}
             {leftContent.showButton && (
               <button className="heck-btn" onClick={onHeckYes}>Heck Yes!</button>
+
             )}
           </div>
         </section>
       </main>
 
-      {/* Pager controls:
-          - story page shows only right arrow (go to hero)
-          - hero shows no pager
-          - other pages show left+right */}
+    </div>
+    <div className="ai-video-wrapper">
+  <iframe
+    id="heygenFrame"
+    src="https://app.heygen.com/embedded-player/e18e3f6103434d2191dfac875864e50a&mute=true"
+    allow="autoplay; encrypted-media; fullscreen;"
+    frameBorder="0"
+    allowFullScreen
+    title="ai-avatar"
+  ></iframe>
+
+  {/* Mute / Unmute button */}
+  <button className="mute-btn" id="muteToggleBtn">🔇</button>
+</div>
+
+
+      {/* --------- PAGER LOGIC --------- */}
       {!isWelcome && activeTab === "story" && (
         <div className="pager-controls">
           <button className="pager-right" onClick={goNext}>▶</button>
@@ -312,5 +408,6 @@ export default function App() {
         </div>
       )}
     </div>
+
   );
 }
