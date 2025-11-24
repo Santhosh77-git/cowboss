@@ -92,8 +92,9 @@ export default function App() {
   const [gunState, setGunState] = useState({ show: false, side: "left", firing: false });
   const gunTimeoutRef = useRef(null);
 
-  const clickAudio = useRef(new Audio("/sounds/click.mp3")).current;
-  const gunAudio = useRef(new Audio("/sounds/gunshot.mp3")).current;
+  // ✅ Updated audio paths for GitHub Pages
+  const clickAudio = useRef(new Audio(import.meta.env.BASE_URL + "sounds/click.mp3")).current;
+  const gunAudio = useRef(new Audio(import.meta.env.BASE_URL + "sounds/gunshot.mp3")).current;
 
   /* ---------- ENTER TOWN → STORY ---------- */
   const enterTown = () => {
@@ -188,7 +189,7 @@ export default function App() {
   /* ---------- GUN COMPONENT ---------- */
   const GunBlast = ({ side, firing }) => (
     <div className={`gun-blast ${side} ${firing ? "firing" : "smoke"}`}>
-      <img src="/images/revolver.png" alt="gun" className={`gun-image ${side === "right" ? "flip" : ""}`} />
+      <img src={import.meta.env.BASE_URL + "images/revolver.png"} alt="gun" className={`gun-image ${side === "right" ? "flip" : ""}`} />
       <div className="muzzle" /><div className="bullet" /><div className="smoke" />
     </div>
   );
@@ -219,7 +220,7 @@ export default function App() {
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
-            {photoInNav && <img ref={photoRef} src="/me.png" className="nav-photo" alt="Santhosh" />}
+            {photoInNav && <img ref={photoRef} src={import.meta.env.BASE_URL + "me.png"} className="nav-photo" alt="Santhosh" />}
           </div>
         </header>
       )}
@@ -229,7 +230,7 @@ export default function App() {
       <main className="viewport">
         {!photoInNav && (
           <aside className="fixed-photo">
-            <img ref={photoRef} src="/me.png" alt="Santhosh" />
+            <img ref={photoRef} src={import.meta.env.BASE_URL + "me.png"} alt="Santhosh" />
           </aside>
         )}
 
