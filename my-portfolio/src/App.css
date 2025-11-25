@@ -20,11 +20,11 @@ body, #root, .app-root {
 }
 .top-nav.nav-show { transform: translateY(0); opacity: 1; }
 .nav-inner { display:flex; align-items:center; gap:32px; padding:0 40px; width:100%; height:100%; }
-.nav-left { font-size:1.45rem; font-weight:900; margin-right:auto; }
-.nav-btn { border:none; background:none; font-size:1.22rem; cursor:pointer; font-weight:700; transition:0.3s; }
+.nav-left { font-size:1.45rem; font-weight:900; margin-right:-1%;margin-left: -5%;padding-left: -1%; }
+.nav-btn { border:none; margin-left:5%;background:none; font-size:1.22rem; cursor:pointer; font-weight:700; transition:0.3s; }
 .nav-btn.active, .nav-btn:hover { color:#111; }
 
-.nav-photo { width:92px; height:92px; border-radius:50%; object-fit:cover; animation:flyToNav 0.9s cubic-bezier(0.23,1,0.32,1) forwards; }
+.nav-photo { width:92px; height:92px; margin-left: 18%; margin-right:10%;border-radius:50%; object-fit:cover; animation:flyToNav 0.9s cubic-bezier(0.23,1,0.32,1) forwards; }
 
 .fixed-photo { position:absolute; right:120px; top:50%; transform:translateY(-50%); }
 .fixed-photo img { width:300px; height:300px; border-radius:50%; object-fit:cover; box-shadow:0 20px 24px rgba(0,0,0,0.13); animation:landingSync 0.9s cubic-bezier(0.23,1,0.32,1); }
@@ -104,9 +104,10 @@ body, #root, .app-root {
 /* ---- NEW: bottom-center pager controls ---- */
 .pager-controls {
   position: fixed;
-  left: 50%;
+  left: 49.2%;
+  
   transform: translateX(-50%);
-  bottom: 28px;
+  bottom: 21px;
   z-index: 110;
   display: flex;
   gap: 18px;
@@ -129,18 +130,18 @@ body, #root, .app-root {
   justify-content: center;
   transition: transform 180ms ease, box-shadow 180ms ease, background 160ms ease;
   box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  color: black;
+  color: white;
 }
 
 /* left (previous) - colored (e.g., teal) */
 .pager-left {
-  background: linear-gradient(180deg,white,white);
+  background: linear-gradient(180deg,black,black);
 }
 .pager-left:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 30px rgba(10,100,90,0.24); }
 
 /* right (next) - colored (e.g., orange) */
 .pager-right {
-  background: linear-gradient(180deg,white,white);
+  background: linear-gradient(180deg,black,black);
 }
 .pager-right:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 30px rgba(220,100,20,0.24); }
 /* ---- Revolver stylish entrance + roll ---- */
@@ -156,7 +157,7 @@ body, #root, .app-root {
   .gun-blast.left { left: 6px; }
   .gun-blast.right { right: 6px; }
 }
-/* ---- WELCOME SCREEN ---- */
+
 
 @keyframes cowboyExit {
   0% {
@@ -181,25 +182,22 @@ body, #root, .app-root {
   0%, 100%{ opacity:0.15; transform: translateY(0px);}
   50%{ opacity:0.95; transform: translateY(-2px);}
 }
-/* Enter-town button */
-.enter-town-btn {
-  position: absolute;
-  bottom: 42px;
-  right: 50%;
-  transform: translateX(110px);
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  font-size: 2rem;
-  font-weight: 900;
-  cursor: pointer;
-  border: none;
-  color: #2b1a04;
-  background: linear-gradient(180deg, white, white);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
-  transition: 0.22s ease;
+
+.story-animated-block {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.4s;
 }
-.enter-town-btn:hover {
-  transform: translateX(110px) scale(1.06);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.4);
+
+.story-line {
+  font-size: 1.25rem;
+  line-height: 1.55rem;
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: fadeInText 0.4s forwards;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0px); }
 }

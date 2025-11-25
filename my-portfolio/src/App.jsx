@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import "./index.css"
 import Splash from "./splash.jsx";
+import StoryAnimator from "./StoryAnimator.jsx";
 
 /* ---------- HERO ---------- */
 const initialLeft = {
@@ -235,13 +236,45 @@ export default function App() {
         )}
 
         <section className="left-area">
-          <div className={`left-wrapper ${animState === "out" ? "slide-out" : ""} ${animState === "in" ? "slide-in" : ""}`}>
-            <LeftText lines={leftContent.titleLines} />
-            {leftContent.showButton && (
-              <button className="heck-btn" onClick={onHeckYes}>Heck Yes!</button>
-            )}
-          </div>
-        </section>
+  <div
+    className={`left-wrapper ${
+      animState === "out" ? "slide-out" : ""
+    } ${animState === "in" ? "slide-in" : ""}`}
+  >
+
+    {/* STORY MODE USES ANIMATOR */}
+    {activeTab === "story" ? (
+      <StoryAnimator
+        lines={leftContent.titleLines}
+        onFinish={() => {
+          // hide photo → reveal later
+          setPhotoInNav(false);
+
+          // after words finish → show photo
+          setTimeout(() => {
+            setPhotoInNav(false);
+
+            // after photo → show navbar/pager
+            setTimeout(() => {
+              setNavVisible(true);
+            }, 1000);
+          }, 300);
+        }}
+      />
+    ) : (
+      // DEFAULT LEFT TEXT FOR ALL OTHER TABS
+      <LeftText lines={leftContent.titleLines} />
+    )}
+
+    {/* HERO BUTTON ONLY */}
+    {leftContent.showButton && (
+      <button className="heck-btn" onClick={onHeckYes}>
+        Heck Yes!
+      </button>
+    )}
+  </div>
+</section>
+
       </main>
 
       {/* --------- PAGER LOGIC --------- */}
