@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import "./index.css"
-import Splash from "./splash.jsx";
+import Splash from "./Splash.jsx";
 import StoryAnimator from "./StoryAnimator.jsx";
 
 /* ---------- HERO ---------- */
