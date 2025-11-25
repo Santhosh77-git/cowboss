@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
-
+import "./index.css"
 /* ---------- HERO ---------- */
 const initialLeft = {
   id: "hero",
