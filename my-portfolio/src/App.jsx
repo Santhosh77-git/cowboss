@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import "./index.css"
+import Splash from "./splash.jsx";
+
 /* ---------- HERO ---------- */
 const initialLeft = {
   id: "hero",
@@ -86,8 +88,8 @@ export default function App() {
   const [photoInNav, setPhotoInNav] = useState(false);
   const photoRef = useRef(null);
 
-  const [isWelcome, setIsWelcome] = useState(true);
-  const [welcomeAnim, setWelcomeAnim] = useState("");
+  
+  const [showSplash, setShowSplash] = useState(true);
 
   const [gunState, setGunState] = useState({ show: false, side: "left", firing: false });
   const gunTimeoutRef = useRef(null);
@@ -95,16 +97,12 @@ export default function App() {
   // ✅ Updated audio paths for GitHub Pages
   const clickAudio = useRef(new Audio(import.meta.env.BASE_URL + "sounds/click.mp3")).current;
   const gunAudio = useRef(new Audio(import.meta.env.BASE_URL + "sounds/gunshot.mp3")).current;
+  const finishSplash = () => {
+  setShowSplash(false);
+};
 
-  /* ---------- ENTER TOWN → STORY ---------- */
-  const enterTown = () => {
-    setWelcomeAnim("fadeOut");
-    setTimeout(() => {
-      setIsWelcome(false);
-      setLeftContent(contentByTab.story);
-      setActiveTab("story");
-    }, 1000);
-  };
+
+  
 
   /* ---------- CONTENT TRANSITION ---------- */
   const replaceLeftContent = (tabKey) => {
@@ -195,14 +193,16 @@ export default function App() {
   );
 
   return (
-    <div className="app-root">
+  <div className="app-root">
 
-      {isWelcome && (
-        <div className={`welcome-screen ${welcomeAnim}`}>
-          <h1 className="welcome-title">Welcome To The Town of PORTFOLIO</h1>
-          <button className="enter-town-btn" onClick={enterTown}>▶</button>
-        </div>
-      )}
+    {showSplash && <Splash onFinish={finishSplash} />}
+
+    {!showSplash && activeTab === "story" && (
+  <div className="pager-controls first-pager">
+    <button className="pager-right" onClick={goNext}>▶</button>
+  </div>
+)}
+
 
       {/* NAVBAR ONLY AFTER HERO */}
       {navVisible && !["story", "hero"].includes(activeTab) && (
@@ -245,13 +245,15 @@ export default function App() {
       </main>
 
       {/* --------- PAGER LOGIC --------- */}
-      {!isWelcome && activeTab === "story" && (
+      {!showSplash && activeTab === "story" && (
+
         <div className="pager-controls">
           <button className="pager-right" onClick={goNext}>▶</button>
         </div>
       )}
 
-      {!isWelcome && !["story", "hero"].includes(activeTab) && (
+      {!showSplash && !["story", "hero"].includes(activeTab) && (
+
         <div className="pager-controls">
           <button className="pager-left" onClick={goPrev}>◀</button>
           <button className="pager-right" onClick={goNext}>▶</button>
