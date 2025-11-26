@@ -1,203 +1,392 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
-/* ---- base styles preserved ---- */
+/* ---- base styles ---- */
 body, #root, .app-root {
   font-family: 'Garamond', Garamond, 'Times New Roman', serif;
   font-weight: 700;
   letter-spacing: 0.2px;
+  background: transparent !important;
 }
 
-/* NAVBAR / PROFILE / TEXT styles */
+/* ---------- NAVBAR (Transparent Glass) ---------- */
 .top-nav {
   width: 100%;
   height: 100px;
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 2px solid #111;
+
+  /* fully transparent glass */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(0px) saturate(150%);
+  -webkit-backdrop-filter: blur(0px) saturate(150%);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
   transform: translateY(-100%);
   transition: transform 0.6s ease, opacity 0.4s;
   opacity: 0;
 }
-.top-nav.nav-show { transform: translateY(0); opacity: 1; }
-.nav-inner { display:flex; align-items:center; gap:32px; padding:0 40px; width:100%; height:100%; }
-.nav-left { font-size:1.45rem; font-weight:900; margin-right:-1%;margin-left: -5%;padding-left: -1%; }
-.nav-btn { border:none; margin-left:5%;background:none; font-size:1.22rem; cursor:pointer; font-weight:700; transition:0.3s; }
-.nav-btn.active, .nav-btn:hover { color:#111; }
 
-.nav-photo { width:92px; height:92px; margin-left: 18%; margin-right:10%;border-radius:50%; object-fit:cover; animation:flyToNav 0.9s cubic-bezier(0.23,1,0.32,1) forwards; }
-
-.fixed-photo { position:absolute; right:120px; top:50%; transform:translateY(-50%); }
-.fixed-photo img { width:300px; height:300px; border-radius:50%; object-fit:cover; box-shadow:0 20px 24px rgba(0,0,0,0.13); animation:landingSync 0.9s cubic-bezier(0.23,1,0.32,1); }
-
-@keyframes landingSync { 0%{ opacity:0; transform:scale(1.35) translateY(50px)} 50%{ opacity:1; transform:scale(1.08) translateY(-6px)} 100%{ opacity:1; transform:scale(1) translateY(0)} }
-
-.float-in { animation: landingSync 0.9s cubic-bezier(0.23,1,0.32,1); }
-.left-wrapper.slide-out .left-lines { animation:none !important; }
-
-.left-area { flex:1; max-width:520px; margin-right:300px; margin-left:350px; text-align:center; }
-.left-lines { margin-bottom:1.2em; font-size:1.42rem; font-weight:900; line-height:1.55; }
-
-.heck-btn { background:#fff; color:#111; border:2px solid #111; border-radius:32px; padding:0.8em 2.3em; font-size:1.25rem; font-weight:750; cursor:pointer; margin-top:1.8em; transition:0.2s; }
-.heck-btn:hover, .heck-btn:focus, .heck-btn:active { background:#111; color:#fff; border-color:#111; }
-
-/* fly-to-nav */
-@keyframes flyToNav { 0%{ transform:translateY(90px) scale(1.9); opacity:0 } 100%{ transform:translateY(0) scale(1); opacity:1 } }
-
-/* ---- gun blast overlay styles (from previous message) ---- */
-.gun-blast {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 120;
-  pointer-events: none;
-  width: 420px;
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+.top-nav.nav-show {
+  transform: translateY(0);
   opacity: 1;
 }
-.gun-blast.left { left: 10px; justify-content: flex-start; }
-.gun-blast.right { right: 10px; justify-content: flex-end; }
-.gun-blast .gun-image { width: 120px; height: auto; transform-origin: center center; will-change: transform; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.35)); }
-.gun-blast .gun-image.flip { transform: scaleX(-1); }
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 40px;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-left {
+  font-size: 1.45rem;
+  font-weight: 900;
+  margin-right: -1%;
+  margin-left: -5%;
+  padding-left: -1%;
+  color: white;
+}
+
+.nav-btn {
+  border: none;
+  margin-left: 5%;
+  background: none;
+  font-size: 1.22rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.3s;
+  color: white;
+}
+
+.nav-btn.active,
+.nav-btn:hover {
+  color: black;
+}
+
+/* NAV PHOTO */
+.nav-photo {
+  width: 92px;
+  height: 92px;
+  border-color: white;
+  margin-left: 18%;
+  margin-right: 10%;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: flyToNav 0.9s cubic-bezier(0.23,1,0.32,1) forwards;
+}
+
+/* FIXED PHOTO */
+.fixed-photo img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: transparent !important;
+  box-shadow: 0 20px 24px rgba(0,0,0,0.25);
+}
+
+/* LEFT AREA */
+.left-area {
+  flex: 1;
+  max-width: 520px;
+  margin-right: 300px;
+  margin-left: 350px;
+  text-align: center;
+  background: transparent !important;
+}
+
+.left-lines {
+  margin-bottom: 1.2em;
+  font-size: 1.42rem;
+  font-weight: 900;
+  line-height: 1.55;
+  color: white;
+}
+
+/* HERO BUTTON */
+.heck-btn {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 32px;
+  padding: 0.8em 2.3em;
+  font-size: 1.25rem;
+  font-weight: 750;
+  cursor: pointer;
+  margin-top: 1.8em;
+  transition: 0.2s;
+}
+.heck-btn:hover {
+  background: #fff;
+  color: #111;
+}
+
+/* STORY ANIMATION BLOCK */
+.story-animated-block {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.4s;
+  background: transparent !important;
+}
+
+.story-animated-block p.story-line {
+  color: white;
+  z-index: 5;
+  position: relative;
+}
+
+.story-line {
+  font-size: 1.5rem;
+  line-height: 1.55rem;
+  margin-bottom: 14px;
+  opacity: 1 !important;
+  animation: fadeInText 0.4s forwards;
+  color: white;
+}
+
+/* ---------- PAGERS (Story + Hero) ---------- */
+.first-pager,
+.pager-controls {
+  position: fixed;
+  bottom: 32px;
+
+  /* CENTER IT */
+  left: 50%;
+  transform: translateX(-50%);
+
+  z-index: 9999;
+  display: flex;
+  gap: 18px;
+
+  /* Remove the old right alignment */
+  /* right: 12px;  <-- delete */
+}
+
+.pager-right,
+.pager-left {
+  padding: 14px 18px;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: rgba(0,0,0,0.55);
+  color: white;
+  backdrop-filter: blur(6px);
+  transition: 0.25s ease;
+}
+
+.pager-right:hover,
+.pager-left:hover {
+  background: rgba(255,255,255,0.7);
+  color: #111;
+}
+
+
+/* ---------- BACKGROUND VIDEO ---------- */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* ROOT */
+.app-root {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: transparent !important;
+}
+.gun-blast { position: fixed; top: 50%; transform: translateY(-50%); z-index: 120; pointer-events: none; width: 420px; height: 160px; display: flex; align-items: center; justify-content: flex-start; opacity: 1; }
+.gun-blast.left {
+  left: 10px;
+  justify-content: flex-start;
+}
+
+.gun-blast.right {
+  right: 10px;
+  justify-content: flex-end;
+}
+
+.gun-blast .gun-image {
+  width: 120px;
+  height: auto;
+  transform-origin: center center;
+  will-change: transform;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+}
+
+.gun-blast .gun-image.flip {
+  transform: scaleX(-1);
+}
+
 .gun-blast .muzzle {
   position: absolute;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff 0%, #ffd77a 20%, #ffb33a 40%, rgba(255,100,0,0) 60%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    #fff 0%,
+    #ffd77a 20%,
+    #ffb33a 40%,
+    rgba(255, 100, 0, 0) 60%
+  );
   opacity: 0;
   transform-origin: left center;
 }
+
 .gun-blast .bullet {
   position: absolute;
   width: 18px;
   height: 6px;
   border-radius: 6px;
-  background: linear-gradient(90deg, rgba(200,190,180,1), rgba(200,180,120,1));
-  box-shadow: 0 0 12px rgba(200,160,80,0.9);
+  background: linear-gradient(
+    90deg,
+    rgba(200, 190, 180, 1),
+    rgba(200, 180, 120, 1)
+  );
+  box-shadow: 0 0 12px rgba(200, 160, 80, 0.9);
   opacity: 0;
   will-change: transform, opacity;
 }
+
 .gun-blast .smoke {
   position: absolute;
   width: 160px;
   height: 36px;
-  background: radial-gradient(ellipse at 20% 40%, rgba(80,80,80,0.7), rgba(80,80,80,0.35) 40%, rgba(80,80,80,0.07) 70%, rgba(80,80,80,0) 100%);
+  background: radial-gradient(
+    ellipse at 20% 40%,
+    rgba(80, 80, 80, 0.7),
+    rgba(80, 80, 80, 0.35) 40%,
+    rgba(80, 80, 80, 0.07) 70%,
+    rgba(80, 80, 80, 0) 100%
+  );
   opacity: 0;
   transform-origin: left center;
   filter: blur(6px);
 }
-.gun-blast.firing.left .muzzle { left: 120px; top: 46%; animation: muzzlePop 0.18s ease forwards; }
-.gun-blast.firing.left .bullet { left: 150px; top: 50%; animation: bulletRight 0.6s linear forwards; }
-.gun-blast.firing.left .smoke { left: 140px; top: 46%; animation: smokeDriftRight 0.8s ease forwards; }
-.gun-blast.firing.right .muzzle { right: 120px; top: 46%; animation: muzzlePop 0.18s ease forwards; }
-.gun-blast.firing.right .bullet { right: 150px; top: 50%; animation: bulletLeft 0.6s linear forwards; }
-.gun-blast.firing.right .smoke { right: 140px; top: 46%; animation: smokeDriftLeft 0.8s ease forwards; }
-@keyframes muzzlePop { 0%{ transform: scale(0.2); opacity:1; filter: blur(0)} 30%{ transform: scale(1.05); opacity:1 } 100%{ transform: scale(0.9); opacity:0; filter: blur(2px) } }
-@keyframes bulletRight { 0%{ transform: translateX(0); opacity:1 } 70%{ opacity:1 } 100%{ transform: translateX(120vw); opacity:0 } }
-@keyframes bulletLeft { 0%{ transform: translateX(0); opacity:1 } 70%{ opacity:1 } 100%{ transform: translateX(-120vw); opacity:0 } }
-@keyframes smokeDriftRight { 0%{ transform: translateX(0) scale(1); opacity:0.85; filter: blur(2px) } 50%{ transform: translateX(40px) scale(1.08); opacity:0.6 } 100%{ transform: translateX(140px) scale(1.25); opacity:0; filter: blur(6px) } }
-@keyframes smokeDriftLeft { 0%{ transform: translateX(0) scale(1); opacity:0.85; filter: blur(2px) } 50%{ transform: translateX(-40px) scale(1.08); opacity:0.6 } 100%{ transform: translateX(-140px) scale(1.25); opacity:0; filter: blur(6px) } }
 
-/* ---- NEW: bottom-center pager controls ---- */
-.pager-controls {
-  position: fixed;
-  left: 49.2%;
-  
-  transform: translateX(-50%);
-  bottom: 21px;
-  z-index: 110;
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
+/* ---------- FIRING LEFT ---------- */
+.gun-blast.firing.left .muzzle {
+  left: 120px;
+  top: 46%;
+  animation: muzzlePop 0.18s ease forwards;
 }
 
-.pager-controls button {
-  border: none;
-  cursor: pointer;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  font-size: 1.35rem;
-  font-weight: 900;
-  
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 160ms ease;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  color: white;
+.gun-blast.firing.left .bullet {
+  left: 150px;
+  top: 50%;
+  animation: bulletRight 0.6s linear forwards;
 }
 
-/* left (previous) - colored (e.g., teal) */
-.pager-left {
-  background: linear-gradient(180deg,black,black);
-}
-.pager-left:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 30px rgba(10,100,90,0.24); }
-
-/* right (next) - colored (e.g., orange) */
-.pager-right {
-  background: linear-gradient(180deg,black,black);
-}
-.pager-right:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 30px rgba(220,100,20,0.24); }
-/* ---- Revolver stylish entrance + roll ---- */
-
-
-/* small-screen adjustments */
-@media (max-width: 900px) {
-  .pager-controls { bottom: 18px; }
-  .pager-controls button { width: 52px; height: 52px; font-size: 1.1rem; }
-  .left-area { margin-left: 16px; margin-right: 16px; max-width: 100%; }
-  .gun-blast { width: 320px; height: 120px; }
-  .gun-blast .gun-image { width: 92px; }
-  .gun-blast.left { left: 6px; }
-  .gun-blast.right { right: 6px; }
+.gun-blast.firing.left .smoke {
+  left: 140px;
+  top: 46%;
+  animation: smokeDriftRight 0.8s ease forwards;
 }
 
+/* ---------- FIRING RIGHT ---------- */
+.gun-blast.firing.right .muzzle {
+  right: 120px;
+  top: 46%;
+  animation: muzzlePop 0.18s ease forwards;
+}
 
-@keyframes cowboyExit {
+.gun-blast.firing.right .bullet {
+  right: 150px;
+  top: 50%;
+  animation: bulletLeft 0.6s linear forwards;
+}
+
+.gun-blast.firing.right .smoke {
+  right: 140px;
+  top: 46%;
+  animation: smokeDriftLeft 0.8s ease forwards;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes muzzlePop {
   0% {
+    transform: scale(0.2);
     opacity: 1;
-    transform: translateX(0);
     filter: blur(0);
   }
-  60% {
-    opacity: 0.55;
-    transform: translateX(90px);
-    filter: blur(3px);
-    box-shadow: inset 0 0 150px rgba(70,40,15,0.3);
+  30% {
+    transform: scale(1.05);
+    opacity: 1;
   }
   100% {
+    transform: scale(0.9);
     opacity: 0;
-    transform: translateX(160px);
+    filter: blur(2px);
+  }
+}
+
+@keyframes bulletRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120vw);
+    opacity: 0;
+  }
+}
+
+@keyframes bulletLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-120vw);
+    opacity: 0;
+  }
+}
+
+@keyframes smokeDriftRight {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  50% {
+    transform: translateX(40px) scale(1.08);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(140px) scale(1.25);
+    opacity: 0;
     filter: blur(6px);
   }
 }
 
-@keyframes blink {
-  0%, 100%{ opacity:0.15; transform: translateY(0px);}
-  50%{ opacity:0.95; transform: translateY(-2px);}
-}
-
-.story-animated-block {
-  opacity: 1;
-  filter: blur(0);
-  transition: opacity 0.4s;
-}
-
-.story-line {
-  font-size: 1.25rem;
-  line-height: 1.55rem;
-  margin-bottom: 14px;
-  opacity: 0;
-  animation: fadeInText 0.4s forwards;
-}
-
-@keyframes fadeInText {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0px); }
+@keyframes smokeDriftLeft {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  50% {
+    transform: translateX(-40px) scale(1.08);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(-140px) scale(1.25);
+    opacity: 0;
+    filter: blur(6px);
+  }
 }

@@ -195,7 +195,17 @@ export default function App() {
 
   return (
   <div className="app-root">
+    {/* 🔥 BACKGROUND VIDEO (LOOPS FOREVER) */}
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="bg-video"
+    >
+      <source src={import.meta.env.BASE_URL + "bg-video.mp4"} type="video/mp4" />
 
+    </video>
     {showSplash && <Splash onFinish={finishSplash} />}
 
     {!showSplash && activeTab === "story" && (
@@ -229,7 +239,8 @@ export default function App() {
       {gunState.show && <GunBlast side={gunState.side} firing={gunState.firing} />}
 
       <main className="viewport">
-        {!photoInNav && (
+        {!photoInNav && !["story", "hero"].includes(activeTab) && (
+
           <aside className="fixed-photo">
             <img ref={photoRef} src={import.meta.env.BASE_URL + "me.png"} alt="Santhosh" />
           </aside>

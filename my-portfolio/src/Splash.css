@@ -2,12 +2,13 @@
   position: fixed;
   inset: 0;
   display: flex;
+  margin-bottom: -33%;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: #FDFEFF;
   z-index: 9999;
-  color: black;
-  font-size: 2.9rem;
+  color: #FFFAE4;
+  font-size: 3.5rem;
   font-weight: 700;
   letter-spacing: 2px;
   transition: transform 0.8s ease, opacity 0.8s ease;

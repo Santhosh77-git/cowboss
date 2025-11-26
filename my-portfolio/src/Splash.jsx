@@ -17,15 +17,25 @@ export default function Splash({ onFinish }) {
         clearInterval(timer);
         setTimeout(() => {
           setExit(true);
-          setTimeout(() => onFinish(), 800);
-        }, 600);
+          setTimeout(() => onFinish(), 900);
+        }, 650);
       }
-    }, 60); // delay between each letter
+    }, 80); // delay between each letter
     return () => clearInterval(timer);
   }, []);
 
   return (
     <div className={`splash-wrapper ${exit ? "exit" : ""}`}>
+      <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="bg-video"
+    >
+      <source src={import.meta.env.BASE_URL + "bg-video.mp4"} type="video/mp4" />
+
+    </video>
       {letters.map((ch, idx) => (
         <span
           key={idx}
