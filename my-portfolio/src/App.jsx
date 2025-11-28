@@ -8,8 +8,8 @@ import StoryAnimator from "./StoryAnimator.jsx";
 const initialLeft = {
   id: "hero",
   titleLines: [
-    "Glad, I' m Santhosh || Domain Explorer",
-    "Got two minutes to stalk my portfolio? Go on… click here",
+    "These are the Stuffs,we have",
+    "If you Believe in our Boss,Let's Handshake",
   ],
   showButton: true,
 };
@@ -34,6 +34,7 @@ const contentByTab = {
   about: {
     id: "about",
     titleLines: [
+      "About",
       `I’m Santhosh, an engineering student who loves turning ideas into working systems that solve real problems.`,
       `I enjoy experimenting with both software and hardware, especially projects involving automation, AI, and smart technologies.`,
       `I’m currently seeking an internship where I can learn from real-world challenges, contribute to meaningful work, and grow as an engineer.`,
@@ -210,7 +211,7 @@ export default function App() {
 
     {!showSplash && activeTab === "story" && (
   <div className="pager-controls first-pager">
-    <button className="pager-right" onClick={goNext}>▶</button>
+    <button className="pager-right" onClick={goNext}>🡺</button>
   </div>
 )}
 
@@ -280,7 +281,7 @@ export default function App() {
     {/* HERO BUTTON ONLY */}
     {leftContent.showButton && (
       <button className="heck-btn" onClick={onHeckYes}>
-        Heck Yes!
+        Handshake🫱🏽‍🫲🏻!!
       </button>
     )}
   </div>
@@ -288,19 +289,12 @@ export default function App() {
 
       </main>
 
-      {/* --------- PAGER LOGIC --------- */}
-      {!showSplash && activeTab === "story" && (
-
-        <div className="pager-controls">
-          <button className="pager-right" onClick={goNext}>▶</button>
-        </div>
-      )}
-
+      
       {!showSplash && !["story", "hero"].includes(activeTab) && (
 
         <div className="pager-controls">
-          <button className="pager-left" onClick={goPrev}>◀</button>
-          <button className="pager-right" onClick={goNext}>▶</button>
+          <button className="pager-left" onClick={goPrev}>🡸</button>
+          <button className="pager-right" onClick={goNext}>🡺</button>
         </div>
       )}
     </div>

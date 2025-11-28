@@ -30,3 +30,11 @@
   transform: translateX(100px);
   pointer-events: none;
 }
+.gold-word {
+  background: linear-gradient(90deg, #ffdd55, #d4a017, #ffcc33);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  filter: drop-shadow(0 0 7px rgba(255, 200, 60, 0.45));
+}

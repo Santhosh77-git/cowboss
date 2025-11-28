@@ -8,6 +8,10 @@ export default function Splash({ onFinish }) {
   const [visibleIndex, setVisibleIndex] = useState(-1);
   const [exit, setExit] = useState(false);
 
+  // detect indices of the word "PORTFOLIO"
+  const start = text.indexOf("PORTFOLIO");
+  const end = start + "PORTFOLIO".length;
+
   useEffect(() => {
     let i = 0;
     const timer = setInterval(() => {
@@ -18,28 +22,29 @@ export default function Splash({ onFinish }) {
         setTimeout(() => {
           setExit(true);
           setTimeout(() => onFinish(), 900);
-        }, 650);
+        }, 1150);
       }
-    }, 80); // delay between each letter
+    }, 80);
+
     return () => clearInterval(timer);
   }, []);
 
   return (
     <div className={`splash-wrapper ${exit ? "exit" : ""}`}>
-      <video
-      autoPlay
-      loop
-      muted
-      playsInline
-      className="bg-video"
-    >
-      <source src={import.meta.env.BASE_URL + "bg-video.mp4"} type="video/mp4" />
+      <video autoPlay loop muted playsInline className="bg-video">
+        <source
+          src={import.meta.env.BASE_URL + "bg-video.mp4"}
+          type="video/mp4"
+        />
+      </video>
 
-    </video>
       {letters.map((ch, idx) => (
         <span
           key={idx}
-          className={`letter ${idx <= visibleIndex ? "show" : ""}`}
+          className={
+            `letter ${idx <= visibleIndex ? "show" : ""} ` +
+            (idx >= start && idx < end ? "gold-word" : "")
+          }
         >
           {ch === " " ? "\u00A0" : ch}
         </span>
