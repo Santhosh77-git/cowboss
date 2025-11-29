@@ -1,0 +1,40 @@
+.splash-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  margin-bottom: -33%;
+  justify-content: center;
+  align-items: center;
+  background: #FDFEFF;
+  z-index: 9999;
+  color: #FFFAE4;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.letter {
+  opacity: 0;
+  filter: blur(7px);
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+
+.letter.show {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.splash-wrapper.exit {
+  opacity: 0;
+  transform: translateX(100px);
+  pointer-events: none;
+}
+.gold-word {
+  background: linear-gradient(90deg, #ffdd55, #d4a017, #ffcc33);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  filter: drop-shadow(0 0 7px rgba(255, 200, 60, 0.45));
+}

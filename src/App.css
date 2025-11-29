@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?family=Rye&display=swap');
+
+
+/* ---- base styles ---- */
+body, #root, .app-root {
+  font-family: 'Rye', serif;
+letter-spacing: 1.2px;   /* rustic spacing */
+font-weight: 400;        /* Rye has one weight, but thick */
+
+  background: transparent !important;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.45);
+}
+
+/* ---------- NAVBAR (Transparent Glass) ---------- */
+.top-nav {
+  width: 100%;
+  height: 100px;
+
+  /* fully transparent glass */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(0px) saturate(150%);
+  -webkit-backdrop-filter: blur(0px) saturate(150%);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+  transform: translateY(-100%);
+  transition: transform 0.6s ease, opacity 0.4s;
+  opacity: 0;
+}
+
+.top-nav.nav-show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 0 40px;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-left {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-right: 0%;
+  margin-left: -65%;
+  padding-left: 50%;
+  background: linear-gradient(90deg, #fff59a 0%, #ffd54f 35%, #ffdd55 65%, #ffe082 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  filter: drop-shadow(0 0 10px rgba(255, 220, 90, 0.7));
+}
+
+.nav-btn {
+  border: none;
+  margin-left: 5%;
+  background: none;
+  font-size: 1.22rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.3s;
+  color: white;
+  font-family: 'Rye', serif;
+  letter-spacing: 1.2px;   /* rustic spacing */
+font-weight: 400; 
+  position: relative; /* needed for sparkle overlay */
+  z-index: 1; /* place button above page but below its label */
+}
+
+.nav-btn.active,
+.nav-btn:hover {
+  /* match splash gold gradient */
+  /* shimmer gradient + fallback */
+  background: linear-gradient(90deg, #ffdd55 10%, #ffd97a 30%, #d4a017 55%, #ffcc33 80%);
+  background-size: 200% 100%;
+  animation: goldShimmer 2.8s linear infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ffdd55; /* fallback for non-supporting browsers */
+}
+
+/* Nav label inside button — apply gradient clip only to this element so overlays cannot hide it */
+.nav-label {
+  position: relative;
+  z-index: 2; /* sits above the button pseudo-element */
+  display: inline-block;
+  color: white;
+}
+
+.nav-btn.active .nav-label,
+.nav-btn:hover .nav-label {
+  background: linear-gradient(90deg, #fffdf0 0%, #fff9b3 10%, #ffe082 30%, #ffd54f 55%, #ffea6b 80%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ffdd55 !important; /* ensure visible fallback */
+  animation: goldShimmer 2.8s linear infinite;
+}
+
+/* sparkle overlay to simulate glitter */
+.nav-btn.active::after,
+.nav-btn:hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 6px);
+  mix-blend-mode: normal;
+  opacity: 0.32;
+  z-index: 0; /* behind .nav-label (z-index:2) */
+  background-size: 8px 8px;
+  animation: sparkleDrift 1.6s linear infinite;
+  border-radius: 4px;
+}
+
+/* keep overlay invisible when not hovered (prevents visible shimmer at rest) */
+.nav-btn::after { opacity: 0; transition: opacity 0.25s; }
+.nav-btn:hover::after, .nav-btn.active::after { opacity: 0.9; }
+
+/* NAV PHOTO */
+.nav-photo {
+  width: 92px;
+  height: 92px;
+  border-color: white;
+  margin-left: 18%;
+  margin-right: 10%;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: flyToNav 0.9s cubic-bezier(0.23,1,0.32,1) forwards;
+}
+
+/* FIXED PHOTO */
+.fixed-photo img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: transparent !important;
+  box-shadow: 0 20px 24px rgba(0,0,0,0.25);
+}
+
+/* LEFT AREA */
+.left-area {
+  flex: 1;
+  max-width: 520px;
+  margin-right: 300px;
+  margin-left: 350px;
+  text-align: center;
+  background: transparent !important;
+}
+
+.left-lines {
+  margin-bottom: 1.2em;
+  font-size: 1.48rem;
+  font-weight: 900;
+  line-height: 1.55;
+  
+}
+
+
+/* HERO BUTTON */
+.heck-btn {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-family: 'Rye', serif;
+  letter-spacing: 1.2px;   /* rustic spacing */
+  font-weight: 400; 
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 32px;
+  padding: 0.8em 2.3em;
+  font-size: 1.25rem;
+  font-weight: 750;
+  cursor: pointer;
+  margin-top: 1.8em;
+  transition: 0.2s;
+}
+.heck-btn:hover {
+  background: #fff;
+  color: #111;
+}
+
+/* STORY ANIMATION BLOCK */
+.story-animated-block {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.4s;
+  background: transparent !important;
+}
+
+.story-animated-block p.story-line {
+  color: white;
+  z-index: 5;
+  position: relative;
+}
+
+.story-line {
+  font-size: 1.5rem;
+  line-height: 1.55rem;
+  margin-bottom: 14px;
+  opacity: 1 !important;
+  animation: fadeInText 0.4s forwards;
+  color: white;
+}
+
+/* ---------- PAGERS (Story + Hero) ---------- */
+.first-pager,
+.pager-controls {
+  position: fixed;
+  bottom: 20px;
+
+  /* CENTER IT */
+  left: 52%;
+
+  transform: translateX(-50%);
+
+  z-index: 9999;
+  display: flex;
+  gap: 18px;
+
+  background: transparent; /* ensure area around pagers is transparent */
+
+  /* Remove the old right alignment */
+  /* right: 12px;  <-- delete */
+}
+
+.pager-right,
+.pager-left {
+  padding: 10px 14px;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  border: none;
+  margin-left: -10%;
+  cursor: pointer;
+  background: transparent; /* transparent container */
+  /* brighter gold gradient clipped to text */
+  color: #ffea6b; /* fallback warm gold */
+  background-image:transparent;
+  background-size: 240% 100%;
+  
+  animation: goldShimmer 2.2s linear infinite;
+  
+  backdrop-filter: blur(6px);
+  transition: 0.25s ease;
+}
+
+.pager-right:hover,
+.pager-left:hover {
+  transform: translateY(-4px);
+  /* keep gold on hover; speed shimmer */
+  animation-duration: 1.6s;
+  filter: drop-shadow(0 4px 16px rgba(255, 220, 90, 0.95));
+}
+
+
+/* ---------- BACKGROUND VIDEO ---------- */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* ROOT */
+.app-root {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: transparent !important;
+}
+.gun-blast { position: fixed; top: 50%; transform: translateY(-50%); z-index: 120; pointer-events: none; width: 420px; height: 160px; display: flex; align-items: center; justify-content: flex-start; opacity: 1; }
+.gun-blast.left {
+  left: 10px;
+  justify-content: flex-start;
+}
+
+.gun-blast.right {
+  right: 10px;
+  justify-content: flex-end;
+}
+
+.gun-blast .gun-image {
+  width: 120px;
+  height: auto;
+  transform-origin: center center;
+  will-change: transform;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+}
+
+.gun-blast .gun-image.flip {
+  transform: scaleX(-1);
+}
+
+.gun-blast .muzzle {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #fff 0%,
+    #ffd77a 20%,
+    #ffb33a 40%,
+    rgba(255, 100, 0, 0) 60%
+  );
+  opacity: 0;
+  transform-origin: left center;
+}
+
+.gun-blast .bullet {
+  position: absolute;
+  width: 18px;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    rgba(200, 190, 180, 1),
+    rgba(200, 180, 120, 1)
+  );
+  box-shadow: 0 0 12px rgba(200, 160, 80, 0.9);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.gun-blast .smoke {
+  position: absolute;
+  width: 160px;
+  height: 36px;
+  background: radial-gradient(
+    ellipse at 20% 40%,
+    rgba(80, 80, 80, 0.7),
+    rgba(80, 80, 80, 0.35) 40%,
+    rgba(80, 80, 80, 0.07) 70%,
+    rgba(80, 80, 80, 0) 100%
+  );
+  opacity: 0;
+  transform-origin: left center;
+  filter: blur(6px);
+}
+
+/* ---------- FIRING LEFT ---------- */
+.gun-blast.firing.left .muzzle {
+  left: 120px;
+  top: 46%;
+  animation: muzzlePop 0.18s ease forwards;
+}
+
+.gun-blast.firing.left .bullet {
+  left: 150px;
+  top: 50%;
+  animation: bulletRight 0.6s linear forwards;
+}
+
+.gun-blast.firing.left .smoke {
+  left: 140px;
+  top: 46%;
+  animation: smokeDriftRight 0.8s ease forwards;
+}
+
+/* ---------- FIRING RIGHT ---------- */
+.gun-blast.firing.right .muzzle {
+  right: 120px;
+  top: 46%;
+  animation: muzzlePop 0.18s ease forwards;
+}
+
+.gun-blast.firing.right .bullet {
+  right: 150px;
+  top: 50%;
+  animation: bulletLeft 0.6s linear forwards;
+}
+
+.gun-blast.firing.right .smoke {
+  right: 140px;
+  top: 46%;
+  animation: smokeDriftLeft 0.8s ease forwards;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes muzzlePop {
+  0% {
+    transform: scale(0.2);
+    opacity: 1;
+    filter: blur(0);
+  }
+  30% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+    filter: blur(2px);
+  }
+}
+
+/* shimmer animation for gold text */
+@keyframes goldShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* sparkle drift for overlay */
+@keyframes sparkleDrift {
+  0% { background-position: 0 0; }
+  50% { background-position: 20px 20px; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes bulletRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120vw);
+    opacity: 0;
+  }
+}
+
+@keyframes bulletLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-120vw);
+    opacity: 0;
+  }
+}
+
+@keyframes smokeDriftRight {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  50% {
+    transform: translateX(40px) scale(1.08);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(140px) scale(1.25);
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
+@keyframes smokeDriftLeft {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 0.85;
+    filter: blur(2px);
+  }
+  50% {
+    transform: translateX(-40px) scale(1.08);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(-140px) scale(1.25);
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+.gold-word {
+  background: linear-gradient(90deg, #fff59a, #ffd54f, #ffdd55, #ffe082);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 900;
+  filter: drop-shadow(0 0 8px rgba(255, 220, 90, 0.45));
+}
+
