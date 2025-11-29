@@ -323,7 +323,7 @@ const LeftText = ({ lines }) => {
     {/* HERO BUTTON ONLY */}
     {leftContent.showButton && (
       <button className="heck-btn" onClick={onHeckYes}>
-        Handshake🫱🏽‍🫲🏻!!
+        Handshake🫱🏽‍🫲🏻!
       </button>
     )}
   </div>
