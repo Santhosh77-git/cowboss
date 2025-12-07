@@ -5,7 +5,7 @@ import "./NavBar.css"; // includes ThunderBrief font
 export default function NavBar({ onNavigate }) {
   const [open, setOpen] = useState(false);
 
-  const tabs = ["About", "Skills", "Testimonials", "Certificates", "Contact"];
+  const tabs = ["About", "Skills",  "Certificates", "Contact"];
 
   const toggleMap = () => {
     const audio = new Audio("/fold-open.mp3"); // public asset
@@ -22,7 +22,7 @@ export default function NavBar({ onNavigate }) {
     <>
       {/* Map Button */}
       <button className="map-button" onClick={toggleMap}>
-        MAP
+        Map📜
       </button>
 
       {/* Animated Map */}
@@ -33,7 +33,7 @@ export default function NavBar({ onNavigate }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "100vh", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
             style={{
               backgroundImage: "url('/parchment-texture.png')", // public asset
             }}

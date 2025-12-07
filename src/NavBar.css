@@ -1,19 +1,14 @@
-/* Load ThunderBrief font from public folder */
-@font-face {
-  font-family: 'ThunderBrief';
-  src: url('/ThunderBrief.ttf') format('truetype');
-}
-
 /* Map Button */
 .map-button {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  bottom: 30px;  /* changed from top */
+  left: 55px;
   z-index: 100;
   padding: 10px 20px;
-  font-family: 'ThunderBrief', cursive;
+
   font-size: 18px;
-  background-color: #5c3b1e;
+  font-family: "Rye", serif;
+  background-color: black;
   color: #f5e7c3;
   border: none;
   border-radius: 8px;
@@ -24,64 +19,70 @@
 
 .map-button:hover {
   transform: scale(1.05);
+  color: rgba(255, 200, 60, 0.45);
 }
 
 /* Vertical Map Nav */
 .cowboy-map-nav {
   position: fixed;
-  top: 0;
+  bottom: 0; /* start from bottom now */
   left: 0;
-  width: 220px;
+  width: 250px;
   overflow: hidden;
   z-index: 90;
   display: flex;
-  flex-direction: column;
-  padding-top: 60px;
-  box-shadow: 4px 0 8px rgba(0,0,0,0.5);
+  flex-direction: column-reverse; /* stack links bottom-up */
+  padding-bottom: 180px; /* bottom padding instead of top */
+ 
   background-size: cover;
   background-position: center;
-  font-family: 'ThunderBrief', cursive;
+  font-family: "Rye", serif;
 }
 
 /* Links */
 .map-links {
   list-style: none;
-  padding: 0;
+  padding: 6px;
+  padding-left: -4px;
   margin: 0;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  flex-direction: column-reverse; /* bottom to top */
+  gap: 60px;
+  text-align: center;
+  font-family: "Rye", serif;
 }
 
 .map-link {
   background: none;
   border: none;
   padding: 10px 20px;
-  text-align: left;
-  font-family: 'ThunderBrief', cursive;
+  text-align: center;
+  
   font-size: 22px;
+  font-family: "Rye", serif;
   color: #3b2715;
   cursor: pointer;
   transition: transform 0.2s, color 0.2s;
 }
 
 .map-link:hover {
-  color: #b33f1f;
+  color: rgba(255, 200, 60, 0.45);
   transform: scale(1.05);
 }
 
-
 /* START: Closed roll */
 .map-closed {
-  transform-origin: left center;
-  transform: scaleX(0);
+  transform-origin: left bottom; /* <-- changed from left center */
+  transform: scaleY(0); /* scale vertically from bottom */
   opacity: 0;
+  font-family: "Rye", serif;
 }
 
 /* END: Fully opened map */
 .map-open {
-  transform-origin: left center;
-  transform: scaleX(1);
+  transform-origin: left bottom; /* <-- changed from left center */
+  transform: scaleY(1); /* scale vertically from bottom */
   opacity: 1;
   transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  font-family: "Rye", serif;
 }

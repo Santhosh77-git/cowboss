@@ -4,6 +4,8 @@ import "./index.css"
 import Splash from "./Splash.jsx";
 import StoryAnimator from "./StoryAnimator.jsx";
 import NavBar from "./NavBar";
+import Certificates from "./Certificates";
+import Skills from "./Skills";
 
 
 /* ---------- HERO ---------- */
@@ -37,53 +39,41 @@ const contentByTab = {
     id: "about",
     titleLines: [
       "About",
-      `I’m Santhosh, an engineering student who loves turning ideas into working systems that solve real problems.`,
-      `I enjoy experimenting with both software and hardware, especially projects involving automation, AI, and smart technologies.`,
-      `I’m currently seeking an internship where I can learn from real-world challenges, contribute to meaningful work, and grow as an engineer.`,
-      `I believe in staying curious, asking questions, and improving a little every day. Beyond academics, I’m someone who enjoys building, exploring, and understanding how things work at the core.`,
+      `He's our Boss,SANTHOSH`,
+      `An engineering student who loves turning ideas into working systems that solve real problems.`,
+      `He enjoy experimenting with both software and hardware, especially projects involving automation, AI, and smart technologies.`,
+      `He currently seeking an internship where he can learn from real-world challenges, contribute to meaningful work, and grow as an engineer.`,
+      `He believe in staying curious, asking questions, and improving a little every day. Beyond academics, He's someone who enjoys building, exploring, and understanding how things work at the core.`,
     ],
     showButton: false,
   },
   skills: {
     id: "skills",
     titleLines: [
-      "Skills",
-      "Embedded systems · Python · C/C++ · React · FastAPI · PostgreSQL · WebAssembly · three.js · ML basics",
     ],
     showButton: false,
   },
-  testimonials: {
-    id: "testimonials",
-    titleLines: [
-      "Testimonials",
-      "“Quick learner and reliable” — Mentor",
-      "“Great at prototyping hardware+software” — Lab instructor",
-    ],
-    showButton: false,
-  },
+  
   certificates: {
-    id: "certificates",
-    titleLines: [
-      "Certificates",
-      "Digital Systems  — Completed",
-      "AI Fundamentals — Completed",
-    ],
-    showButton: false,
-  },
+  id: "certificates",
+  titleLines: [], // Only heading on left
+  showButton: false,
+},
+
   contact: {
-    id: "contact",
-    titleLines: [
-      "Contact Me",
-      "Email: santhoshmuruganandham023@gmail.com",
-      "Open to internship opportunities — let's talk.",
-    ],
-    showButton: false,
-  },
+  id: "contact",
+  titleLines: [
+    "Contact Him",
+    
+  ],
+  showButton: false,
+},
+
 };
 <p class="gold-text">TEST GOLD HEADING</p>
 
 /* ---------- ORDER WITH NEW STORY SCREEN ---------- */
-const tabOrder = ["story", "hero", "about", "skills", "testimonials", "certificates", "contact"];
+const tabOrder = ["story", "hero", "about", "skills", "certificates", "contact"];
 
 export default function App() {
   const [leftContent, setLeftContent] = useState(contentByTab.story);
@@ -92,6 +82,9 @@ export default function App() {
   const [navVisible, setNavVisible] = useState(false);
   const [photoInNav, setPhotoInNav] = useState(false);
   const [navRollOpen, setNavRollOpen] = useState(false);
+  const [mapAutoPlayed, setMapAutoPlayed] = useState(false);
+  const [mapOpen, setMapOpen] = useState(false); // your existing map state
+
 
   const photoRef = useRef(null);
 
@@ -218,20 +211,93 @@ const LeftText = ({ lines }) => {
     }
   }, [animState]);
 
+  useEffect(() => {
+  if (activeTab === "about" && !mapAutoPlayed) {
+    // Trigger map open
+    setMapOpen(true);
+
+    // Auto-close after 1.5 seconds
+    setTimeout(() => {
+      setMapOpen(false);
+    }, 1500);
+
+    setMapAutoPlayed(true); // mark as played
+  }
+}, [activeTab, mapAutoPlayed]);
+
+
   return (
     <div className={`left-lines ${animate ? "float-in" : ""}`}>
+
       {lines.map((line, index) => (
-        <p
+        <React.Fragment key={index}>
+          {/* GOLD HEADING FIRST LINE */}
+          <p className={`left-line ${index === 0 ? "gold-text" : ""}`}>
+            {line}
+          </p>
           
-          className={`left-line ${index === 0 ? "gold-text" : ""}`}
-          key={index}
-        >
-          {line}
-        </p>
+          {/* 👉 INSERT PHOTO AFTER SECOND LINE ("He's our Cowboss, SANTHOSH") */}
+          {activeTab === "about" && index === 1 && (
+            <div className="about-photo-wrapper">
+              <img
+                src={import.meta.env.BASE_URL + "me.png"}
+                alt="Santhosh"
+                className="about-photo"
+              />
+            </div>
+          )}
+          {/* CONTACT SECTION SPECIAL UI */}
+{activeTab === "contact" && index === 0 && (
+  <div className="contact-center">
+
+    
+
+    {/* SUBTEXT */}
+    <p className="contact-subtext">
+      “If you reckon he’s the Right Man for your project,<br />
+      Track him down through this Trail here.”
+    </p>
+
+    {/* ICONS (NOT PNG → PURE EMOJI ICONS) */}
+    LinkedIn:<div className="contact-icons">
+      <button className="contact-item" onClick={() => window.open("https://www.linkedin.com/in/santhoshmuruganandham023/", "_blank")}>
+        🔗 LinkedIn
+      </button>
+
+      Gmail:<button className="contact-item" onClick={() => window.location.href="mailto:santhoshmuruganandham023@gmail.com"}>
+        📧 Gmail
+      </button>
+
+      For Call:<p className="contact-item">📞 +91 9087847806</p>
+    </div>
+
+    {/* FEEDBACK TEXT */}
+    <p className="feedback-text">
+      “And If our Town earned your Respect,<br />
+      carve your feedback right here.”
+    </p>
+
+    {/* MIC BUTTON */}
+    <button className="mic-btn" onClick={startRecording}>
+      🎤 {recording ? "Recording..." : "Record Feedback"}
+    </button>
+
+    {/* AUDIO PLAYER */}
+    {audioURL && (
+      <audio controls className="feedback-audio">
+        <source src={audioURL} type="audio/wav" />
+      </audio>
+    )}
+  </div>
+    )}
+
+        </React.Fragment>
       ))}
+      
     </div>
   );
 };
+
 
 
   /* ---------- GUN COMPONENT ---------- */
@@ -241,6 +307,35 @@ const LeftText = ({ lines }) => {
       <div className="muzzle" /><div className="bullet" /><div className="smoke" />
     </div>
   );
+  /* ---------- VOICE FEEDBACK ---------- */
+const [recording, setRecording] = useState(false);
+const [audioURL, setAudioURL] = useState("");
+
+const startRecording = async () => {
+  if (recording) return;
+
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const recorder = new MediaRecorder(stream);
+
+  setRecording(true);
+
+  let audioChunks = [];
+
+  recorder.ondataavailable = (e) => audioChunks.push(e.data);
+
+  recorder.onstop = () => {
+    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+    const url = URL.createObjectURL(audioBlob);
+    setAudioURL(url);
+    setRecording(false);
+  };
+
+  recorder.start();
+
+  // max recording 5 sec
+  setTimeout(() => recorder.stop(), 5000);
+};
+
 
   return (
   <div className="app-root">
@@ -270,7 +365,8 @@ const LeftText = ({ lines }) => {
   <NavBar
     activeTab={activeTab}
     photoInNav={photoInNav}
-    triggerOpen={navRollOpen}     // 👈 NEW
+    triggerOpen={navRollOpen} 
+    mapOpen={mapOpen}       // 👈 NEW
     onNavigate={onNavClick}       // 👈 NEW
   />
 )}
@@ -281,12 +377,7 @@ const LeftText = ({ lines }) => {
       {gunState.show && <GunBlast side={gunState.side} firing={gunState.firing} />}
 
       <main className="viewport">
-        {!photoInNav && !["story", "hero"].includes(activeTab) && (
-
-          <aside className="fixed-photo">
-            <img ref={photoRef} src={import.meta.env.BASE_URL + "me.png"} alt="Santhosh" />
-          </aside>
-        )}
+        
 
         <section className="left-area">
   <div
@@ -314,9 +405,19 @@ const LeftText = ({ lines }) => {
 )}
 
 {/* ALL OTHER SECTIONS */}
-{activeTab !== "story" && (
+{/* ALL SECTIONS EXCEPT STORY / CERTIFICATES / SKILLS USE LeftText */}
+{activeTab !== "story" &&
+ activeTab !== "certificates" &&
+ activeTab !== "skills" && (
   <LeftText lines={leftContent.titleLines} />
 )}
+
+
+{activeTab === "skills" && <Skills />}
+
+
+{activeTab === "certificates" && <Certificates />}
+
 
 
     {/* HERO BUTTON ONLY */}
@@ -328,6 +429,8 @@ const LeftText = ({ lines }) => {
   </div>
 </section>
 
+
+
       </main>
 
       
@@ -335,7 +438,7 @@ const LeftText = ({ lines }) => {
 
         <div className="pager-controls">
           <button className="pager-left" onClick={goPrev}>🡸</button>
-          <button className="pager-right" onClick={goNext}>🡺</button>
+          <button className="pager-right" onClick={goNext}>╭̔ᴝ═</button>
         </div>
         
       )}

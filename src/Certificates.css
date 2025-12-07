@@ -1,0 +1,78 @@
+.certs-wrapper {
+  width: 100%;
+  text-align: center;
+  padding-top: 40px;
+  font-family: "Thunder", serif;
+  color: #f8e3b0;
+}
+
+/* --- Centered Gold Title --- */
+.certs-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: gold;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+/* --- Vertical Column --- */
+.certs-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 55px;
+  width: 100%;
+}
+
+/* --- Each Certificate Block Centered --- */
+.cert-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  position: relative;
+}
+
+/* Rope above certificate */
+.rope {
+  width: 4px;
+  height: 50px;
+  background: #d4b080;
+  box-shadow: 0 0 8px #b88a4a;
+  margin-bottom: 10px;
+}
+
+/* Certificate Image */
+.cert-image {
+  width: 580px;
+  border: 5px solid #b48b55;
+  border-radius: 12px;
+  filter: drop-shadow(0 0 12px black);
+}
+
+/* Title + Description */
+.cert-name {
+  margin-top: 12px;
+  font-size: 1.4rem;
+  color: gold;
+}
+
+.cert-desc {
+  max-width: 280px;
+  margin-top: 5px;
+  color: #ffe7c2;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+.sticky-title {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(240, 234, 226, 0.85);
+  backdrop-filter: blur(4px);
+  padding: 12px 0;
+}
+.right-content {
+  height: 100vh;
+  overflow-y: auto;
+}

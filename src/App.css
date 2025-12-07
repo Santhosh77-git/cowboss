@@ -511,4 +511,96 @@ font-weight: 400;
   font-family: "Rye", serif;
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
 }
+.about-photo-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 25px 0;
+}
+
+.about-photo {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #d4a552; /* cowboy gold */
+  background: transparent;
+  box-shadow: 0 0 18px rgba(0,0,0,0.55);
+}
+
+
+.contact-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.contact-item {
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  color: #fff3d6;
+  cursor: pointer;
+}
+
+.contact-item:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+}
+
+.mic-btn {
+  background: none;
+  border: 2px solid #d4a24c;
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  color: #f0dea7;
+  cursor: pointer;
+}
+
+.mic-btn:hover {
+  background: rgba(255, 222, 150, 0.3);
+}
+
+.feedback-audio {
+  margin-top: 20px;
+}
+.right-area {
+  width: 55%;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 20px;
+}
+/* Sticky title (applies to section headings) */
+.sticky-title {
+  position: sticky;
+  top: 20px;                 /* distance from top where it will stick */
+  z-index: 50;               /* above other content but below UI overlays */
+  display: block;
+  margin: 0 auto 20px;
+  padding: 8px 12px;         /* small padded background so text stays readable */
+  background: rgba(10, 6, 2, 0.35); /* slightly translucent so content shows through */
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+  color: #ffea6b;            /* gold-ish heading color — change if you want */
+  font-weight: 900;
+  text-align: center;
+}
+
+/* Container for the section body text (so it flows under the sticky title) */
+.section-body {
+  margin-top: 12px;
+  line-height: 1.6;
+  color: #fff;               /* paragraph color */
+}
+
+/* Ensure left-wrapper/left-area are not creating a new stacking context that breaks sticky */
+.left-wrapper, .left-area {
+  /* do NOT set overflow on these (or set visible) — sticky requires a scrolling ancestor (body) */
+  overflow: visible;
+}
+
 
