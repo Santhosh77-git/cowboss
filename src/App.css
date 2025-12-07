@@ -491,4 +491,24 @@ font-weight: 400;
   font-weight: 900;
   filter: drop-shadow(0 0 8px rgba(255, 220, 90, 0.45));
 }
+.map-roll {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100px;       /* match navbar height */
+  width: 0;            /* collapsed */
+  object-fit: cover;
+  overflow: hidden;
+  z-index: -1;
+  transition: width 1s cubic-bezier(0.25, 1, 0.3, 1);
+}
+
+.map-roll.open {
+  width: 100%;         /* expand fully */
+}
+.gold-text {
+  color: #d6a648 !important;
+  font-family: "Rye", serif;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
 

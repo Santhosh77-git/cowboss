@@ -3,6 +3,8 @@ import "./App.css";
 import "./index.css"
 import Splash from "./Splash.jsx";
 import StoryAnimator from "./StoryAnimator.jsx";
+import NavBar from "./NavBar";
+
 
 /* ---------- HERO ---------- */
 const initialLeft = {
@@ -89,6 +91,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("story");
   const [navVisible, setNavVisible] = useState(false);
   const [photoInNav, setPhotoInNav] = useState(false);
+  const [navRollOpen, setNavRollOpen] = useState(false);
+
   const photoRef = useRef(null);
 
   
@@ -171,6 +175,8 @@ const triggerNavigationWithGun = (tabKey, forcedSide) => {
     setNavVisible(true);
     setPhotoInNav(true);
     triggerNavigationWithGun("about");
+    setTimeout(() => setNavRollOpen(true), 500);
+
   };
 
   /* ---------- NAVBAR CLICK ---------- */
@@ -259,25 +265,18 @@ const LeftText = ({ lines }) => {
 
 
       {/* NAVBAR ONLY AFTER HERO */}
-      {navVisible && !["story", "hero"].includes(activeTab) && (
-        <header className="top-nav nav-show">
-          <div className="nav-inner">
-            <div className="nav-left">
-              Santhosh <span className="nav-sep">|</span> 9087847806
-            </div>
-            {tabOrder.filter(t => !["story", "hero"].includes(t)).map((tab) => (
-              <button
-                key={tab}
-                className={`nav-btn ${activeTab === tab ? "active" : ""}`}
-                onClick={() => onNavClick(tab)}
-              >
-                <span className="nav-label">{tab.charAt(0).toUpperCase() + tab.slice(1)}</span>
-              </button>
-            ))}
-            {photoInNav && <img ref={photoRef} src={import.meta.env.BASE_URL + "me.png"} className="nav-photo" alt="Santhosh" />}
-          </div>
-        </header>
-      )}
+      {/* NAVBAR ONLY AFTER HERO */}
+{navVisible && !["story", "hero"].includes(activeTab) && (
+  <NavBar
+    activeTab={activeTab}
+    photoInNav={photoInNav}
+    triggerOpen={navRollOpen}     // 👈 NEW
+    onNavigate={onNavClick}       // 👈 NEW
+  />
+)}
+
+
+
 
       {gunState.show && <GunBlast side={gunState.side} firing={gunState.firing} />}
 
