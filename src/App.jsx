@@ -30,7 +30,7 @@ const contentByTab = {
       "I’m my boss’s shadow, and I’m here to speak for his profession.",
       "",
       "I’ll hand ya the map of this here land—so gear up, the ride’s about to begin.",
-      "Now spit it out… what’s your name?",
+      
       
     ],
     showButton: false,
