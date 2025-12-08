@@ -11,11 +11,10 @@
 
 /* Section Titles */
 .section-title {
-  font-family: "ThunderBrief", serif;
+  font-family: "Rye", serif;
   font-size: 42px;
   margin-top: 40px;
-  color: #3a2006;
-  letter-spacing: 2px;
+  color: rgba(255, 200, 60, 0.45);
   text-transform: uppercase;
 }
 
@@ -34,7 +33,7 @@
 .skill-name {
   font-size: 28px;
   margin-bottom: 10px;
-  color: white;
+  color: whitesmoke;
 }
 
 /* Project Title */
@@ -46,20 +45,21 @@
 
 /* Image */
 .skill-image {
-  width: 240px;
-  height: 240px;
+  width: 440px;
+  height: 440px;
   object-fit: cover;
   border-radius: 14px;
   margin: 15px auto;
   display: block;
-  border: 3px solid #44250d;
+  border: 3px solid rgba(255, 200, 60, 0.45);
 }
 
 /* Description */
 .skill-desc {
   font-size: 17px;
-  color: whitesmoke;
+  color: #ffe7c2;
   margin-bottom: 15px;
+  line-height: 2.0;
 }
 
 /* Links */
@@ -71,23 +71,12 @@
 
 .links-row a {
   font-size: 18px;
-  color: whitesmoke;
+  color: rgba(255, 200, 60, 0.45);
   text-decoration: none;
   border-bottom: 2px solid #2b1404;
 }
 
 .links-row a:hover {
   opacity: 0.6;
-}
-.sticky-title {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(240, 234, 226, 0.85);
-  backdrop-filter: blur(4px);
-  padding: 12px 0;
-}
-.right-content {
-  height: 100vh;
-  overflow-y: auto;
+  color: whitesmoke;
 }

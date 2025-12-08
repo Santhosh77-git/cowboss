@@ -155,6 +155,7 @@ font-weight: 400;
   margin-left: 350px;
   text-align: center;
   background: transparent !important;
+  padding: 100px 0px;
 }
 
 .left-lines {
@@ -196,18 +197,18 @@ font-weight: 400;
 }
 
 .story-animated-block p.story-line {
-  color: white;
+  color: #ffe7c2;
   z-index: 5;
   position: relative;
 }
 
 .story-line {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1.55rem;
   margin-bottom: 14px;
   opacity: 1 !important;
   animation: fadeInText 0.4s forwards;
-  color: white;
+  color: #ffe7c2;
 }
 
 /* ---------- PAGERS (Story + Hero) ---------- */
@@ -247,7 +248,7 @@ font-weight: 400;
   
   animation: goldShimmer 2.2s linear infinite;
   
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(5px);
   transition: 0.25s ease;
 }
 
@@ -488,7 +489,7 @@ font-weight: 400;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-  font-weight: 900;
+  font-weight: 2000;
   filter: drop-shadow(0 0 8px rgba(255, 220, 90, 0.45));
 }
 .map-roll {
@@ -516,16 +517,17 @@ font-weight: 400;
   display: flex;
   justify-content: center;
   margin: 20px 0 25px 0;
+  padding-left: 70px;
 }
 
 .about-photo {
-  width: 180px;
-  height: 180px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid #d4a552; /* cowboy gold */
   background: transparent;
-  box-shadow: 0 0 18px rgba(0,0,0,0.55);
+  box-shadow: 0 0 8px rgba(0,0,0,0.55);
 }
 
 
@@ -540,7 +542,7 @@ font-weight: 400;
   font-size: 1.6rem;
   background: none;
   border: none;
-  color: #fff3d6;
+  color: #ffe7c2;
   cursor: pointer;
 }
 
@@ -557,6 +559,7 @@ font-weight: 400;
   font-size: 1.4rem;
   color: #f0dea7;
   cursor: pointer;
+  text-align: center;
 }
 
 .mic-btn:hover {
@@ -564,7 +567,8 @@ font-weight: 400;
 }
 
 .feedback-audio {
-  margin-top: 20px;
+   align-content: center;
+
 }
 .right-area {
   width: 55%;
@@ -572,35 +576,13 @@ font-weight: 400;
   overflow-y: auto;
   padding-right: 20px;
 }
-/* Sticky title (applies to section headings) */
-.sticky-title {
-  position: sticky;
-  top: 20px;                 /* distance from top where it will stick */
-  z-index: 50;               /* above other content but below UI overlays */
-  display: block;
-  margin: 0 auto 20px;
-  padding: 8px 12px;         /* small padded background so text stays readable */
-  background: rgba(10, 6, 2, 0.35); /* slightly translucent so content shows through */
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  border-radius: 6px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.28);
-  color: #ffea6b;            /* gold-ish heading color — change if you want */
-  font-weight: 900;
-  text-align: center;
+.left-lines {
+  height: 100%;
+  overflow-y: auto;   /* REQUIRED */
+  padding-right: 10px;
 }
 
-/* Container for the section body text (so it flows under the sticky title) */
-.section-body {
-  margin-top: 12px;
-  line-height: 1.6;
-  color: #fff;               /* paragraph color */
-}
 
-/* Ensure left-wrapper/left-area are not creating a new stacking context that breaks sticky */
-.left-wrapper, .left-area {
-  /* do NOT set overflow on these (or set visible) — sticky requires a scrolling ancestor (body) */
-  overflow: visible;
-}
+
 
 

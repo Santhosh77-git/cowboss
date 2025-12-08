@@ -6,12 +6,15 @@ import StoryAnimator from "./StoryAnimator.jsx";
 import NavBar from "./NavBar";
 import Certificates from "./Certificates";
 import Skills from "./Skills";
+import BGM from "./BGM";
+
 
 
 /* ---------- HERO ---------- */
 const initialLeft = {
   id: "hero",
   titleLines: [
+    "Agreement",
     "These are the Stuffs,we have",
     "If you Believe in our Boss,Let's Handshake",
   ],
@@ -23,14 +26,12 @@ const contentByTab = {
   story: {
     id: "story",
     titleLines: [
-      "Before entering into the Town, I'm my Boss's Buddy and I'm here to represent my Boss's profession.",
-      "If you've any query, say it to me and I will reach out that to my Boss.",
+      "Before ya step foot in this town, listen up...",
+      "I’m my boss’s shadow, and I’m here to speak for his profession.",
       "",
-      "We've some constraints to visit our Town. They are:",
-      "• Don't reveal the secret of our Town.",
-      "• We will provide a Horse for your ride.",
-      "• After my bullet sound, you can move to the next Area.",
-      "• Finally, if you trust our Boss, you can call our Boss with his contact and I will provide it."
+      "I’ll hand ya the map of this here land—so gear up, the ride’s about to begin.",
+      "Now spit it out… what’s your name?",
+      
     ],
     showButton: false,
   },
@@ -84,6 +85,7 @@ export default function App() {
   const [navRollOpen, setNavRollOpen] = useState(false);
   const [mapAutoPlayed, setMapAutoPlayed] = useState(false);
   const [mapOpen, setMapOpen] = useState(false); // your existing map state
+  const [showPager, setShowPager] = useState(false);
 
 
   const photoRef = useRef(null);
@@ -200,7 +202,8 @@ const goPrev = () => {
 
   /* ---------- LEFT TEXT ---------- */
   /* ---------- LEFT TEXT (with golden headings) ---------- */
-const LeftText = ({ lines }) => {
+const LeftText = ({ lines, onReachBottom }) => {
+
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
@@ -227,7 +230,16 @@ const LeftText = ({ lines }) => {
 
 
   return (
-    <div className={`left-lines ${animate ? "float-in" : ""}`}>
+    <div 
+  className={`left-lines ${animate ? "float-in" : ""}`}
+  onScroll={(e) => {
+    if (!onReachBottom) return;
+    const el = e.target;
+    const isBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 10;
+    onReachBottom(isBottom);
+  }}
+>
+
 
       {lines.map((line, index) => (
         <React.Fragment key={index}>
@@ -250,25 +262,41 @@ const LeftText = ({ lines }) => {
 {activeTab === "contact" && index === 0 && (
   <div className="contact-center">
 
-    
-
     {/* SUBTEXT */}
     <p className="contact-subtext">
       “If you reckon he’s the Right Man for your project,<br />
       Track him down through this Trail here.”
     </p>
 
-    {/* ICONS (NOT PNG → PURE EMOJI ICONS) */}
-    LinkedIn:<div className="contact-icons">
-      <button className="contact-item" onClick={() => window.open("https://www.linkedin.com/in/santhoshmuruganandham023/", "_blank")}>
+    {/* ICONS (Emoji-based) */}
+    LinkedIn:
+    <div className="contact-icons">
+
+      {/* LINKEDIN */}
+      <a
+        className="contact-item"
+        href="https://www.linkedin.com/in/santhoshmuruganandham023/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         🔗 LinkedIn
-      </button>
+      </a>
 
-      Gmail:<button className="contact-item" onClick={() => window.location.href="mailto:santhoshmuruganandham023@gmail.com"}>
+      {/* GMAIL */}
+      Gmail:
+      <a
+        className="contact-item"
+        href="mailto:santhoshmuruganandham023@gmail.com"
+      >
         📧 Gmail
-      </button>
+      </a>
 
-      For Call:<p className="contact-item">📞 +91 9087847806</p>
+      {/* PHONE */}
+      For Call:
+      <a className="contact-item" href="tel:+919087847806">
+        📞 +91 9087847806
+      </a>
+
     </div>
 
     {/* FEEDBACK TEXT */}
@@ -277,9 +305,9 @@ const LeftText = ({ lines }) => {
       carve your feedback right here.”
     </p>
 
-    {/* MIC BUTTON */}
+    {/* MIC BUTTON (kept as button — must trigger JS) */}
     <button className="mic-btn" onClick={startRecording}>
-      🎤 {recording ? "Recording..." : "Record Feedback"}
+      🎙️....🎙️{recording ? "Recording..." : ""}
     </button>
 
     {/* AUDIO PLAYER */}
@@ -289,7 +317,8 @@ const LeftText = ({ lines }) => {
       </audio>
     )}
   </div>
-    )}
+)}
+
 
         </React.Fragment>
       ))}
@@ -310,6 +339,7 @@ const LeftText = ({ lines }) => {
   /* ---------- VOICE FEEDBACK ---------- */
 const [recording, setRecording] = useState(false);
 const [audioURL, setAudioURL] = useState("");
+
 
 const startRecording = async () => {
   if (recording) return;
@@ -333,12 +363,15 @@ const startRecording = async () => {
   recorder.start();
 
   // max recording 5 sec
-  setTimeout(() => recorder.stop(), 5000);
+  setTimeout(() => recorder.stop(), 10000);
 };
 
 
   return (
   <div className="app-root">
+
+    <BGM />   {/* 🔥 Added here */}
+
     {/* 🔥 BACKGROUND VIDEO (LOOPS FOREVER) */}
     <video
       autoPlay
@@ -347,14 +380,17 @@ const startRecording = async () => {
       playsInline
       className="bg-video"
     >
-      <source src={import.meta.env.BASE_URL + "bg-video.mp4"} type="video/mp4" />
-
+      <source
+        src={import.meta.env.BASE_URL + "bg-video.mp4"}
+        type="video/mp4"
+      />
     </video>
+
     {showSplash && <Splash onFinish={finishSplash} />}
 
     {!showSplash && activeTab === "story" &&  (
   <div className="pager-controls first-pager">
-    <button className="pager-right" onClick={goNext}>🡺</button>
+    <button className="pager-right" onClick={goNext}>⮞</button>
   </div>
 )}
 
@@ -409,7 +445,11 @@ const startRecording = async () => {
 {activeTab !== "story" &&
  activeTab !== "certificates" &&
  activeTab !== "skills" && (
-  <LeftText lines={leftContent.titleLines} />
+  <LeftText 
+  lines={leftContent.titleLines}
+  onReachBottom={(value) => setShowPager(value)}
+/>
+
 )}
 
 
@@ -437,8 +477,8 @@ const startRecording = async () => {
       {!showSplash && !["story", "hero"].includes(activeTab) && (
 
         <div className="pager-controls">
-          <button className="pager-left" onClick={goPrev}>🡸</button>
-          <button className="pager-right" onClick={goNext}>╭̔ᴝ═</button>
+          <button className="pager-left" onClick={goPrev}>⮜</button>
+          <button className="pager-right" onClick={goNext}>⮞</button>
         </div>
         
       )}
